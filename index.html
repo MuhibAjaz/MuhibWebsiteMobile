@@ -1,15 +1,9 @@
-bash
-
-B64=$(cat /tmp/profile_b64.txt)
-
-# Write the complete integrated index.html
-cat > /home/claude/index_integrated.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muhib Ullah – Data Analyst & Automation Engineer</title>
+<title>Muhib Ajaz – Data Analyst & Automation Engineer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -31,6 +25,8 @@ body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-si
 a{color:var(--green);text-decoration:none;transition:opacity .2s}
 a:hover{opacity:.75}
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+
+/* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(8,8,14,0.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
 .nav-logo{font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:1.5px;display:flex;align-items:center;gap:8px}
 .nav-logo::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
@@ -40,6 +36,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex;al
 .nav-links a:hover{color:var(--text);opacity:1}
 .nav-cta{background:var(--green)!important;color:#08080e!important;padding:6px 18px;border-radius:6px;font-weight:600!important;transition:box-shadow .2s,transform .2s!important}
 .nav-cta:hover{box-shadow:0 0 24px rgba(93,245,168,.35);transform:translateY(-1px);opacity:1!important}
+
+/* HERO */
 .hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2.5rem 4rem;position:relative;overflow:hidden}
 .glow{position:absolute;border-radius:50%;pointer-events:none}
 .glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(93,245,168,.07) 0%,transparent 70%);top:50%;left:40%;transform:translate(-50%,-50%)}
@@ -63,37 +61,62 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex;al
 .btn-green:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(93,245,168,.3);opacity:1;color:#08080e}
 .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
 .btn-ghost:hover{background:var(--bg3);border-color:var(--border3);opacity:1}
-/* TALK BUTTON */
-.btn-talk{background:rgba(93,245,168,0.08);color:var(--green);border:1px solid rgba(93,245,168,0.4);position:relative;overflow:hidden}
-.btn-talk:hover{background:rgba(93,245,168,0.18);border-color:var(--green);transform:translateY(-2px);box-shadow:0 8px 24px rgba(93,245,168,0.2);opacity:1}
-.btn-talk .talk-dot{width:7px;height:7px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;flex-shrink:0}
+
+/* PROFILE CARD */
 .profile-card-wrap{perspective:1200px;opacity:0;animation:fadeUp .6s .3s forwards}
 .profile-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:1.75rem 1.6rem;text-align:center;position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .1s ease-out;cursor:default}
 .profile-card-shine{position:absolute;inset:0;border-radius:var(--r-lg);pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.06),transparent 60%);opacity:0;transition:opacity .3s}
 .profile-card:hover .profile-card-shine{opacity:1}
 .profile-card-top{position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg,rgba(93,245,168,.1),rgba(167,139,250,.1))}
-.avatar-wrap{position:relative;width:88px;height:88px;margin:0 auto 1rem;cursor:default}
-.avatar-wrap:hover .avatar-overlay{opacity:1}
+.avatar-wrap{position:relative;width:88px;height:88px;margin:0 auto 1rem}
 .avatar-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));border:3px solid var(--bg2);box-shadow:0 0 0 1.5px var(--border2);overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;transition:box-shadow .3s}
-.avatar-wrap:hover .avatar-circle{box-shadow:0 0 0 2px var(--green),0 0 20px rgba(93,245,168,.2)}
+.profile-card:hover .avatar-circle{box-shadow:0 0 0 2px var(--green),0 0 20px rgba(93,245,168,.2)}
 .avatar-initials{font-family:var(--font-head);font-size:28px;color:#08080e;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.avatar-photo{width:100%;height:100%;object-fit:cover;display:none;position:absolute;inset:0}
-.avatar-overlay{position:absolute;inset:0;border-radius:50%;background:rgba(8,8,14,.7);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;z-index:2}
-.avatar-overlay-text{font-size:10px;font-family:var(--font-mono);color:var(--green);letter-spacing:.5px;text-align:center;line-height:1.4}
-.avatar-input{position:absolute;inset:0;opacity:0;cursor:pointer;border-radius:50%;z-index:3}
+.avatar-photo{width:100%;height:100%;object-fit:cover;object-position:center top;display:none;position:absolute;inset:0}
 .profile-name{font-weight:600;font-size:15px;margin-bottom:2px;position:relative}
 .profile-title{font-size:10.5px;color:var(--muted);margin-bottom:1rem;font-family:var(--font-mono);letter-spacing:.5px;position:relative}
-.profile-info{display:flex;flex-direction:column;gap:7px;margin-bottom:1.1rem;text-align:left;position:relative}
-.pinfo-row{display:flex;align-items:center;gap:9px;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 11px}
-.pinfo-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center}
-.pinfo-text{font-size:11.5px;color:var(--muted);line-height:1.4}
-.pinfo-text strong{color:var(--text);font-weight:600;display:block;font-size:12px}
-.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.25rem;position:relative}
+.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem;position:relative}
 .pstat{background:var(--bg3);border-radius:var(--r-sm);padding:10px 8px;border:1px solid var(--border)}
 .pstat-num{font-size:22px;font-weight:600;color:var(--green);font-family:var(--font-mono);line-height:1}
 .pstat-label{font-size:9.5px;color:var(--muted);margin-top:3px;letter-spacing:.3px}
-.avail-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:var(--green3);border:1px solid rgba(93,245,168,.2);padding:5px 14px;border-radius:20px;font-family:var(--font-mono);position:relative}
+.avail-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:var(--green3);border:1px solid rgba(93,245,168,.2);padding:5px 14px;border-radius:20px;font-family:var(--font-mono);margin-bottom:1rem}
 .avail-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
+
+/* TALK TO MUHIB BUTTON on card */
+.card-talk-btn{
+  width:100%;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  padding:10px 16px;
+  background:rgba(93,245,168,0.07);
+  border:1px solid rgba(93,245,168,0.3);
+  border-radius:10px;
+  color:var(--green);
+  font-family:var(--font-mono);
+  font-size:11.5px;
+  font-weight:500;
+  letter-spacing:.5px;
+  cursor:pointer;
+  transition:all .2s;
+  position:relative;
+  overflow:hidden;
+}
+.card-talk-btn::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(93,245,168,.06),transparent);
+  transform:translateX(-100%);
+  transition:transform .5s;
+}
+.card-talk-btn:hover::before{transform:translateX(100%)}
+.card-talk-btn:hover{
+  background:rgba(93,245,168,0.14);
+  border-color:rgba(93,245,168,.6);
+  transform:translateY(-1px);
+  box-shadow:0 6px 20px rgba(93,245,168,.15);
+}
+.card-talk-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;flex-shrink:0}
+
+/* DIVIDER / SECTIONS */
 .divider{width:100%;height:1px;background:var(--border);position:relative;z-index:1}
 section{max-width:900px;margin:0 auto;padding:5rem 2.5rem;position:relative;z-index:1}
 .section-label{font-family:var(--font-mono);font-size:10.5px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem}
@@ -170,77 +193,163 @@ footer span{color:var(--green)}
 #certs-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .fab{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:998;transition:all .2s;box-shadow:0 4px 24px rgba(0,0,0,.5)}
 .fab:hover{border-color:var(--green);color:var(--green);transform:rotate(30deg)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}
+.fade-up.visible{opacity:1;transform:translateY(0)}
 
-/* ── AVATAR MODAL ── */
-.avatar-modal-overlay{position:fixed;inset:0;z-index:5000;background:rgba(8,8,14,0.88);backdrop-filter:blur(16px);display:none;align-items:center;justify-content:center;padding:20px}
-.avatar-modal-overlay.open{display:flex}
-.avatar-modal-box{position:relative;width:100%;max-width:500px;background:#0d1b2a;border:1px solid rgba(79,195,247,0.2);border-radius:20px;overflow:hidden;max-height:92vh;overflow-y:auto}
-.avatar-modal-close{position:absolute;top:14px;right:16px;z-index:10;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#7878a0;border-radius:8px;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
-.avatar-modal-close:hover{color:var(--text);border-color:var(--border2)}
+/* ══════════════════════════════════════
+   AI AVATAR MODAL
+══════════════════════════════════════ */
+.av-modal-overlay{
+  position:fixed;inset:0;z-index:5000;
+  background:rgba(6,6,12,0.92);
+  backdrop-filter:blur(20px);
+  display:none;align-items:center;justify-content:center;
+  padding:20px;
+  animation:avFadeIn .25s ease;
+}
+@keyframes avFadeIn{from{opacity:0}to{opacity:1}}
+.av-modal-overlay.open{display:flex}
+.av-modal-box{
+  position:relative;width:100%;max-width:480px;
+  background:linear-gradient(145deg,#0d1420,#0a1020);
+  border:1px solid rgba(93,245,168,0.18);
+  border-radius:24px;overflow:hidden;
+  max-height:94vh;overflow-y:auto;
+  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(93,245,168,.06),inset 0 1px 0 rgba(255,255,255,.05);
+  animation:avSlideUp .3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes avSlideUp{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.av-modal-box::-webkit-scrollbar{width:4px}
+.av-modal-box::-webkit-scrollbar-thumb{background:rgba(93,245,168,.15);border-radius:2px}
+.av-modal-close{
+  position:absolute;top:14px;right:14px;z-index:10;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  color:var(--muted);border-radius:8px;width:30px;height:30px;
+  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:all .15s;
+}
+.av-modal-close:hover{color:var(--text);border-color:var(--border2);background:rgba(255,255,255,.1)}
 
-/* ── AVATAR WIDGET INSIDE MODAL ── */
-.av-page{display:flex;flex-direction:column;align-items:center;gap:18px;padding:28px 20px 32px}
+/* avatar page layout */
+.av-page{display:flex;flex-direction:column;align-items:center;gap:16px;padding:28px 20px 28px}
+
+/* header */
 .av-header{text-align:center}
-.av-header h2{font-family:var(--font-mono);font-size:20px;font-weight:700;letter-spacing:.04em;color:var(--text)}
-.av-header p{font-size:11px;color:#4fc3f7;letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
-.av-ring-wrap{position:relative;width:200px;height:200px;flex-shrink:0}
-.av-ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid transparent;background:linear-gradient(#0d1b2a,#0d1b2a) padding-box,linear-gradient(135deg,#4fc3f7,#00e5ff,#4fc3f7) border-box;transition:box-shadow .3s}
+.av-header h2{font-family:var(--font-mono);font-size:18px;font-weight:700;letter-spacing:.04em;color:var(--text)}
+.av-header p{font-size:10.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-top:4px;opacity:.8}
+
+/* avatar ring + photo */
+.av-ring-wrap{position:relative;width:180px;height:180px;flex-shrink:0}
+.av-ring{
+  position:absolute;inset:-7px;border-radius:50%;
+  border:2px solid transparent;
+  background:linear-gradient(#0d1420,#0d1420) padding-box,
+    linear-gradient(135deg,var(--green),var(--purple),var(--green)) border-box;
+  transition:box-shadow .3s;
+}
 .av-ring.speaking{animation:av-ring-pulse 1s ease-in-out infinite}
-@keyframes av-ring-pulse{0%,100%{box-shadow:0 0 0 4px rgba(79,195,247,0.15),0 0 20px rgba(79,195,247,0.25)}50%{box-shadow:0 0 0 8px rgba(79,195,247,0.08),0 0 36px rgba(79,195,247,0.35)}}
-.av-img{width:200px;height:200px;border-radius:50%;object-fit:cover;object-position:center top;display:block;position:relative;z-index:1}
-.av-eye-overlay{position:absolute;top:52px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;display:flex;gap:22px}
-.av-eye{width:18px;height:7px;background:#0d1b2a;border-radius:50%;transform:scaleY(0);transform-origin:center;transition:transform .07s}
+@keyframes av-ring-pulse{
+  0%,100%{box-shadow:0 0 0 3px rgba(93,245,168,.12),0 0 18px rgba(93,245,168,.2)}
+  50%{box-shadow:0 0 0 7px rgba(93,245,168,.06),0 0 32px rgba(93,245,168,.32)}
+}
+.av-img{
+  width:180px;height:180px;border-radius:50%;
+  object-fit:cover;object-position:center top;
+  display:block;position:relative;z-index:1;
+}
+/* eye + mouth overlays */
+.av-eye-overlay{position:absolute;top:46px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;display:flex;gap:20px}
+.av-eye{width:17px;height:6px;background:#0d1420;border-radius:50%;transform:scaleY(0);transform-origin:center;transition:transform .07s}
 .av-eye.closed{transform:scaleY(1)}
-.av-mouth-overlay{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;opacity:0;transition:opacity .15s}
+.av-mouth-overlay{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;opacity:0;transition:opacity .15s}
 .av-mouth-overlay.visible{opacity:1}
-.av-sound-bars{display:flex;gap:3px;align-items:flex-end;height:18px;margin-top:8px;opacity:0;transition:opacity .3s}
+
+/* sound bars */
+.av-sound-bars{display:flex;gap:3px;align-items:flex-end;height:16px;margin-top:6px;opacity:0;transition:opacity .3s}
 .av-sound-bars.active{opacity:1}
-.av-bar{width:4px;background:#4fc3f7;border-radius:2px}
-.av-bar.go{animation:av-bounce .5s ease-in-out infinite alternate}
+.av-bar{width:4px;background:var(--green);border-radius:2px}
+.av-bar.go{animation:avBounce .5s ease-in-out infinite alternate}
 .av-bar:nth-child(1){animation-delay:0s;height:5px}
 .av-bar:nth-child(2){animation-delay:.1s;height:9px}
 .av-bar:nth-child(3){animation-delay:.2s;height:13px}
 .av-bar:nth-child(4){animation-delay:.1s;height:9px}
 .av-bar:nth-child(5){animation-delay:0s;height:5px}
-@keyframes av-bounce{to{transform:scaleY(2.2);background:#00e5ff}}
-.av-status-row{display:flex;align-items:center;gap:8px;font-size:13px;color:#7fa8c0;font-family:var(--font-mono)}
-.av-dot{width:8px;height:8px;border-radius:50%;background:#7fa8c0;transition:background .3s,box-shadow .3s;flex-shrink:0}
-.av-dot.listening{background:#ff6b6b;box-shadow:0 0 8px rgba(255,107,107,0.6);animation:av-dot-pulse .8s ease-in-out infinite}
-.av-dot.thinking{background:#ffd93d;box-shadow:0 0 8px rgba(255,217,61,0.5);animation:av-dot-pulse 1.2s ease-in-out infinite}
-.av-dot.speaking{background:#4fc3f7;box-shadow:0 0 8px rgba(79,195,247,0.6);animation:av-dot-pulse 1s ease-in-out infinite}
-@keyframes av-dot-pulse{0%,100%{opacity:1}50%{opacity:.35}}
-.av-chat-log{width:100%;background:rgba(255,255,255,0.04);border:1px solid rgba(79,195,247,0.2);border-radius:14px;padding:14px;min-height:160px;max-height:220px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
-.av-chat-log::-webkit-scrollbar{width:4px}
-.av-chat-log::-webkit-scrollbar-thumb{background:rgba(79,195,247,0.2);border-radius:2px}
-.av-msg{display:flex;flex-direction:column;gap:3px;max-width:88%}
+@keyframes avBounce{to{transform:scaleY(2.2);background:var(--purple)}}
+
+/* status row */
+.av-status-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--font-mono)}
+.av-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s;flex-shrink:0}
+.av-dot.listening{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.6);animation:avDotPulse .8s ease-in-out infinite}
+.av-dot.thinking{background:var(--gold);box-shadow:0 0 8px rgba(251,191,36,.5);animation:avDotPulse 1.2s ease-in-out infinite}
+.av-dot.speaking{background:var(--green);box-shadow:0 0 8px rgba(93,245,168,.6);animation:avDotPulse 1s ease-in-out infinite}
+@keyframes avDotPulse{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* chat log */
+.av-chat-log{
+  width:100%;background:rgba(255,255,255,.03);
+  border:1px solid rgba(93,245,168,.12);border-radius:14px;
+  padding:12px;min-height:140px;max-height:200px;
+  overflow-y:auto;display:flex;flex-direction:column;gap:9px;
+  scroll-behavior:smooth;
+}
+.av-chat-log::-webkit-scrollbar{width:3px}
+.av-chat-log::-webkit-scrollbar-thumb{background:rgba(93,245,168,.15);border-radius:2px}
+.av-msg{display:flex;flex-direction:column;gap:3px;max-width:90%}
 .av-msg.user{align-self:flex-end;align-items:flex-end}
 .av-msg.bot{align-self:flex-start;align-items:flex-start}
-.av-bubble{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55}
-.av-msg.user .av-bubble{background:rgba(79,195,247,0.18);border:1px solid rgba(79,195,247,0.3);color:#e8f4f8;border-bottom-right-radius:3px}
-.av-msg.bot .av-bubble{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:#e8f4f8;border-bottom-left-radius:3px}
-.av-msg-label{font-size:10px;color:#7fa8c0;letter-spacing:.06em;text-transform:uppercase;padding:0 4px}
-.av-typing-dots{display:flex;gap:4px;align-items:center;padding:9px 13px}
-.av-typing-dots span{width:6px;height:6px;border-radius:50%;background:#7fa8c0;animation:av-td 1.2s ease-in-out infinite}
+.av-bubble{padding:8px 12px;border-radius:11px;font-size:12.5px;line-height:1.55}
+.av-msg.user .av-bubble{background:rgba(93,245,168,.14);border:1px solid rgba(93,245,168,.25);color:var(--text);border-bottom-right-radius:3px}
+.av-msg.bot .av-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--text);border-bottom-left-radius:3px}
+.av-msg-label{font-size:9.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:0 4px}
+.av-typing-dots{display:flex;gap:4px;align-items:center;padding:8px 12px}
+.av-typing-dots span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:avTd 1.2s ease-in-out infinite}
 .av-typing-dots span:nth-child(2){animation-delay:.2s}
 .av-typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes av-td{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-.av-placeholder{color:#7fa8c0;font-size:13px;text-align:center;margin:auto;font-style:italic;line-height:1.6}
-.av-talk-btn{width:100%;padding:14px;background:rgba(79,195,247,0.12);border:1.5px solid #4fc3f7;border-radius:12px;color:#4fc3f7;font-family:var(--font-body);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
-.av-talk-btn:hover{background:rgba(79,195,247,0.2);transform:translateY(-1px)}
-.av-talk-btn.recording{background:rgba(255,107,107,0.15);border-color:#ff6b6b;color:#ff6b6b;animation:av-btn-pulse 1.5s ease-in-out infinite}
-@keyframes av-btn-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.3)}50%{box-shadow:0 0 0 8px rgba(255,107,107,0)}}
-.av-talk-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
-.av-text-row{display:flex;gap:8px;width:100%}
-.av-text-input{flex:1;padding:10px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(79,195,247,0.2);border-radius:10px;color:#e8f4f8;font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .2s}
-.av-text-input:focus{border-color:#4fc3f7}
-.av-text-input::placeholder{color:#7fa8c0}
-.av-send-btn{padding:10px 14px;background:rgba(79,195,247,0.12);border:1px solid #4fc3f7;border-radius:10px;color:#4fc3f7;font-size:16px;cursor:pointer;transition:all .2s}
-.av-send-btn:hover{background:rgba(79,195,247,0.22)}
-.av-sugs{display:flex;flex-wrap:wrap;gap:7px;width:100%}
-.av-sug{padding:5px 11px;border:1px solid rgba(79,195,247,0.2);border-radius:20px;background:transparent;color:#7fa8c0;font-family:var(--font-body);font-size:11.5px;cursor:pointer;transition:all .18s}
-.av-sug:hover{border-color:#4fc3f7;color:#4fc3f7;background:rgba(79,195,247,0.07)}
+@keyframes avTd{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.av-placeholder{color:var(--muted);font-size:12.5px;text-align:center;margin:auto;font-style:italic;line-height:1.6}
 
-/* Password & Admin overlays */
+/* talk button */
+.av-talk-btn{
+  width:100%;padding:13px;
+  background:rgba(93,245,168,.08);
+  border:1.5px solid rgba(93,245,168,.4);border-radius:12px;
+  color:var(--green);font-family:var(--font-body);font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+}
+.av-talk-btn:hover{background:rgba(93,245,168,.16);border-color:var(--green);transform:translateY(-1px)}
+.av-talk-btn.recording{background:rgba(248,113,113,.12);border-color:#f87171;color:#f87171;animation:avBtnPulse 1.5s ease-in-out infinite}
+@keyframes avBtnPulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.3)}50%{box-shadow:0 0 0 7px rgba(248,113,113,0)}}
+.av-talk-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
+
+/* text input row */
+.av-text-row{display:flex;gap:8px;width:100%}
+.av-text-input{
+  flex:1;padding:10px 13px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(93,245,168,.15);
+  border-radius:10px;color:var(--text);
+  font-family:var(--font-body);font-size:12.5px;outline:none;transition:border-color .2s;
+}
+.av-text-input:focus{border-color:rgba(93,245,168,.4)}
+.av-text-input::placeholder{color:var(--muted2)}
+.av-send-btn{
+  padding:10px 14px;background:rgba(93,245,168,.1);
+  border:1px solid rgba(93,245,168,.3);border-radius:10px;
+  color:var(--green);font-size:14px;cursor:pointer;transition:all .2s;
+}
+.av-send-btn:hover{background:rgba(93,245,168,.2)}
+
+/* suggestion chips */
+.av-sugs{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.av-sug{
+  padding:5px 11px;border:1px solid rgba(93,245,168,.15);border-radius:20px;
+  background:transparent;color:var(--muted);
+  font-family:var(--font-body);font-size:11px;cursor:pointer;transition:all .18s;
+}
+.av-sug:hover{border-color:rgba(93,245,168,.4);color:var(--green);background:rgba(93,245,168,.06)}
+
+/* PASSWORD GATE */
 .pw-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(16px);z-index:2100;display:none;align-items:center;justify-content:center;padding:1rem}
 .pw-ov.open{display:flex}
 .pw-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);width:100%;max-width:380px;padding:2.5rem 2rem;position:relative;text-align:center}
@@ -260,6 +369,8 @@ footer span{color:var(--green)}
 .pw-close{position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
 .pw-close:hover{color:var(--text);border-color:var(--border2)}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+
+/* ADMIN */
 .admin-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem}
 .admin-ov.open{display:flex}
 .admin-panel{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;padding:2rem;position:relative}
@@ -291,11 +402,10 @@ footer span{color:var(--green)}
 .btn-add:hover{border-color:var(--green);color:var(--green)}
 .btn-save-all{background:var(--green);color:#08080e;border:none;border-radius:var(--r-sm);padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);width:100%;transition:all .2s}
 .btn-save-all:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,245,168,.25)}
+
 .toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid rgba(93,245,168,.3);color:var(--green);padding:10px 20px;border-radius:var(--r-sm);font-size:12.5px;font-family:var(--font-mono);z-index:9998;transition:transform .3s;white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}
-.fade-up.visible{opacity:1;transform:translateY(0)}
+
 @media(max-width:720px){
 .hero-inner{grid-template-columns:1fr}
 .profile-card-wrap{display:none}
@@ -305,345 +415,340 @@ nav{padding:0 1.25rem}
 .nav-links li:not(:last-child):not(:nth-last-child(2)){display:none}
 section{padding:3.5rem 1.25rem}
 .hero{padding:5rem 1.25rem 3rem}
-.avatar-modal-box{max-width:100%}
 }
 </style>
 </head>
 <body>
 
 <nav>
-<span class="nav-logo">Muhib Ajaz</span>
-<ul class="nav-links">
-<li><a href="#experience">Experience</a></li>
-<li><a href="#skills">Skills</a></li>
-<li><a href="#projects">Projects</a></li>
-<li><a href="#contact">Contact</a></li>
-<li><a href="#contact" class="nav-cta">Hire me</a></li>
-</ul>
+  <span class="nav-logo">Muhib Ajaz</span>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#contact" class="nav-cta">Hire me</a></li>
+  </ul>
 </nav>
 
 <div class="hero" id="home">
-<div class="glow glow-1"></div>
-<div class="glow glow-2"></div>
-<div class="glow glow-3"></div>
-<div class="hero-inner">
-<div>
-<div class="hero-eyebrow">Open to opportunities</div>
-<h1>Data turns into<br><em>decisions</em> here.</h1>
-<p class="hero-desc">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</p>
-<div class="hero-chips">
-<span class="chip g">Python</span><span class="chip g">SQL</span><span class="chip p">Power BI</span>
-<span class="chip p">Computer Vision</span><span class="chip">Excel</span><span class="chip">Databricks</span>
-<span class="chip pk">n8n</span><span class="chip">OpenAI API</span>
-</div>
-<div class="hero-btns">
-<a href="#contact" class="btn btn-green">Get in touch</a>
-<a href="#" class="btn btn-ghost" id="cv-btn">⬇ Download CV</a>
-<a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
-<a href="https://github.com/MuhibAjaz" target="_blank" class="btn btn-ghost">GitHub ↗</a>
-<!-- TALK TO MUHIB BUTTON -->
-<button class="btn btn-talk" onclick="openAvatarModal()">
-  <span class="talk-dot"></span> Talk to Muhib
-</button>
-</div>
-</div>
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+  <div class="glow glow-3"></div>
+  <div class="hero-inner">
+    <div>
+      <div class="hero-eyebrow">Open to opportunities</div>
+      <h1>Data turns into<br><em>decisions</em> here.</h1>
+      <p class="hero-desc" id="hero-desc-text">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</p>
+      <div class="hero-chips">
+        <span class="chip g">Python</span><span class="chip g">SQL</span><span class="chip p">Power BI</span>
+        <span class="chip p">Computer Vision</span><span class="chip">Excel</span><span class="chip">Databricks</span>
+        <span class="chip pk">n8n</span><span class="chip">OpenAI API</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-green">Get in touch</a>
+        <a href="#" class="btn btn-ghost" id="cv-btn">⬇ Download CV</a>
+        <a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+        <a href="https://github.com/MuhibAjaz" target="_blank" class="btn btn-ghost">GitHub ↗</a>
+      </div>
+    </div>
 
-<div class="profile-card-wrap" id="card-wrap">
-<div class="profile-card" id="profile-card">
-<div class="profile-card-shine" id="card-shine"></div>
-<div class="profile-card-top"></div>
-<div class="avatar-wrap" title="Click to upload your photo">
-<div class="avatar-circle">
-<div class="avatar-initials" id="avatar-initials">MU</div>
-<img id="avatar-photo" class="avatar-photo" src="" alt="Muhib Ullah">
-</div>
-<div class="avatar-overlay"><div class="avatar-overlay-text"><br></div></div>
-</div>
-<div class="profile-name">Muhib Ajaz</div>
-<div class="profile-title">Data Analyst | Automation Engineer</div>
-<div class="profile-stats">
-<div class="pstat"><div class="pstat-num">8+</div><div class="pstat-label">Months experience</div></div>
-<div class="pstat"><div class="pstat-num">3.4</div><div class="pstat-label">CGPA</div></div>
-<div class="pstat"><div class="pstat-num">10+</div><div class="pstat-label">Projects</div></div>
-<div class="pstat"><div class="pstat-num">3h</div><div class="pstat-label">Response Time</div></div>
-</div>
-<div class="avail-badge"><span class="avail-dot"></span>Open to work</div>
-</div>
-</div>
-</div>
+    <!-- PROFILE CARD -->
+    <div class="profile-card-wrap" id="card-wrap">
+      <div class="profile-card" id="profile-card">
+        <div class="profile-card-shine" id="card-shine"></div>
+        <div class="profile-card-top"></div>
+        <div class="avatar-wrap">
+          <div class="avatar-circle">
+            <div class="avatar-initials" id="avatar-initials">MA</div>
+            <img id="avatar-photo" class="avatar-photo" src="" alt="Muhib Ajaz">
+          </div>
+        </div>
+        <div class="profile-name">Muhib Ajaz</div>
+        <div class="profile-title">Data Analyst | Automation Engineer</div>
+        <div class="profile-stats">
+          <div class="pstat"><div class="pstat-num">8+</div><div class="pstat-label">Months exp</div></div>
+          <div class="pstat"><div class="pstat-num">3.4</div><div class="pstat-label">CGPA</div></div>
+          <div class="pstat"><div class="pstat-num">10+</div><div class="pstat-label">Projects</div></div>
+          <div class="pstat"><div class="pstat-num">3h</div><div class="pstat-label">Response time</div></div>
+        </div>
+        <div class="avail-badge"><span class="avail-dot"></span>Open to work</div>
+        <!-- TALK TO MUHIB BUTTON -->
+        <button class="card-talk-btn" onclick="openAvatarModal()">
+          <span class="card-talk-dot"></span>
+          Talk to Muhib
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity:.7"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="divider"></div>
 
 <section id="experience">
-<div class="section-label">Career</div>
-<div class="section-title">Work experience</div>
-<div class="student-banner fade-up">
-<div class="sb-icon">🎓</div>
-<div class="sb-text"><strong>Final Year Computer Science Student</strong> at National University of Modern Languages (NUML), Islamabad — graduating 2026 with a CGPA of 3.4. Currently balancing full-time industry work with academic commitments.</div>
-</div>
-<div class="exp-timeline">
-<div class="exp-item fade-up">
-<div class="exp-dot"></div>
-<div class="exp-header">
-<div class="exp-role">Data Analyst | Automation Engineer <span class="exp-badge">● Current</span></div>
-<div class="exp-period">Sep 2025 – Present</div>
-</div>
-<div class="exp-company">IP Global · Islamabad, Pakistan</div>
-<ul class="exp-list">
-<li>Wrote optimized SQL queries for data extraction and ETL pipelines to support reporting and analytics.</li>
-<li>Extracted large datasets from Outlook emails and processed them with Python for cleaning, transformation, and analysis.</li>
-<li>Automated website contact-form capture and routed leads into internal CRM workflows.</li>
-<li>Designed and implemented Power BI dashboards for sales, operations, and management to improve visibility and decision-making.</li>
-<li>Developing chatbots for the company website to improve self-service and lead qualification.</li>
-<li>Built n8n automation workflows integrated with Outlook to send personalized, large-scale sales outreach emails.</li>
-<li>Developing VAPI-powered AI calling agents to autonomously schedule and manage client calls.</li>
-<li>Leading automation initiatives across multiple departments with a mission to maximize efficiency and scale.</li>
-</ul>
-<div class="tag-row">
-<span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Python</span>
-<span class="tag">n8n</span><span class="tag">Vapi</span><span class="tag">Power Automate</span><span class="tag">Outlook API</span>
-</div>
-</div>
-<div class="exp-item fade-up">
-<div class="exp-dot"></div>
-<div class="exp-header">
-<div class="exp-role">Data Science Intern</div>
-<div class="exp-period">Nov 2025 – Feb 2026</div>
-</div>
-<div class="exp-company">10Pearls · Islamabad, Pakistan (Remote)</div>
-<ul class="exp-list">
-<li>Built data pipelines to collect, clean & analyze environmental and weather datasets for forecasting.</li>
-<li>Performed EDA and feature engineering using Python & Excel to improve data quality.</li>
-<li>Built and evaluated predictive models with focus on preprocessing & validation.</li>
-<li>Visualized insights through dashboards and reports for team decision-making.</li>
-</ul>
-<div class="tag-row">
-<span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Power BI</span><span class="tag">Excel</span><span class="tag">Scikit-learn</span>
-</div>
-</div>
-<div class="exp-item fade-up">
-<div class="exp-dot"></div>
-<div class="exp-header">
-<div class="exp-role">Data Analyst Intern</div>
-<div class="exp-period">Jul 2024 – Aug 2024</div>
-</div>
-<div class="exp-company">Sarmaya Financials · Islamabad, Pakistan</div>
-<ul class="exp-list">
-<li>Built Power BI dashboards to visualize live stock performance & AUM trends for investment decisions.</li>
-<li>Cleaned and structured financial datasets using SQL & Excel for accuracy and consistency.</li>
-</ul>
-<div class="tag-row">
-<span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Excel</span><span class="tag">Financial Data</span>
-</div>
-</div>
-</div>
+  <div class="section-label">Career</div>
+  <div class="section-title">Work experience</div>
+  <div class="student-banner fade-up">
+    <div class="sb-icon">🎓</div>
+    <div class="sb-text"><strong>Final Year Computer Science Student</strong> at National University of Modern Languages (NUML), Islamabad — graduating 2026 with a CGPA of 3.4. Currently balancing full-time industry work with academic commitments.</div>
+  </div>
+  <div class="exp-timeline">
+    <div class="exp-item fade-up">
+      <div class="exp-dot"></div>
+      <div class="exp-header">
+        <div class="exp-role">Data Analyst | Automation Engineer <span class="exp-badge">● Current</span></div>
+        <div class="exp-period">Sep 2025 – Present</div>
+      </div>
+      <div class="exp-company">IP Global · Islamabad, Pakistan</div>
+      <ul class="exp-list">
+        <li>Wrote optimized SQL queries for data extraction and ETL pipelines to support reporting and analytics.</li>
+        <li>Extracted large datasets from Outlook emails and processed them with Python for cleaning, transformation, and analysis.</li>
+        <li>Designed and implemented Power BI dashboards for sales, operations, and management.</li>
+        <li>Built n8n automation workflows integrated with Outlook to send personalized, large-scale sales outreach emails.</li>
+        <li>Developing VAPI-powered AI calling agents to autonomously schedule and manage client calls.</li>
+      </ul>
+      <div class="tag-row">
+        <span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Python</span>
+        <span class="tag">n8n</span><span class="tag">Vapi</span><span class="tag">Power Automate</span>
+      </div>
+    </div>
+    <div class="exp-item fade-up">
+      <div class="exp-dot"></div>
+      <div class="exp-header">
+        <div class="exp-role">Data Science Intern</div>
+        <div class="exp-period">Nov 2025 – Feb 2026</div>
+      </div>
+      <div class="exp-company">10Pearls · Islamabad, Pakistan (Remote)</div>
+      <ul class="exp-list">
+        <li>Built data pipelines to collect, clean & analyze environmental and weather datasets for forecasting.</li>
+        <li>Built and evaluated predictive models with focus on preprocessing & validation.</li>
+      </ul>
+      <div class="tag-row">
+        <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Power BI</span><span class="tag">Scikit-learn</span>
+      </div>
+    </div>
+    <div class="exp-item fade-up">
+      <div class="exp-dot"></div>
+      <div class="exp-header">
+        <div class="exp-role">Data Analyst Intern</div>
+        <div class="exp-period">Jul 2024 – Aug 2024</div>
+      </div>
+      <div class="exp-company">Sarmaya Financials · Islamabad, Pakistan</div>
+      <ul class="exp-list">
+        <li>Built Power BI dashboards to visualize live stock performance & AUM trends.</li>
+        <li>Cleaned and structured financial datasets using SQL & Excel.</li>
+      </ul>
+      <div class="tag-row">
+        <span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Excel</span>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="skills">
-<div class="section-label">Toolkit</div>
-<div class="section-title">Technical skills</div>
-<div class="skills-grid">
-<div class="skill-card fade-up"><div class="skill-icon">📊</div><div class="skill-name">BI & Visualization</div><div class="skill-pills"><span class="pill hi">Power BI</span><span class="pill hi">DAX</span><span class="pill">Databricks</span><span class="pill">Power Query</span></div></div>
-<div class="skill-card fade-up"><div class="skill-icon">📋</div><div class="skill-name">Spreadsheets & Reporting</div><div class="skill-pills"><span class="pill hi">Excel Advanced</span><span class="pill">Google Sheets</span><span class="pill">Pivot Tables</span><span class="pill">Power Query</span></div></div>
-<div class="skill-card fade-up"><div class="skill-icon">🗄️</div><div class="skill-name">Databases</div><div class="skill-pills"><span class="pill hi">SQL</span><span class="pill hi">MySQL</span><span class="pill">Data Cleaning</span><span class="pill">ETL</span></div></div>
-<div class="skill-card fade-up"><div class="skill-icon">🐍</div><div class="skill-name">Programming</div><div class="skill-pills"><span class="pill hi">Python</span><span class="pill">Pandas</span><span class="pill">Scikit-learn</span><span class="pill">C++</span><span class="pill">NLP</span></div></div>
-<div class="skill-card fade-up"><div class="skill-icon">⚡</div><div class="skill-name">Automation</div><div class="skill-pills"><span class="pill hi">n8n</span><span class="pill hi">Power Automate</span><span class="pill">Vapi AI Agents</span><span class="pill">Outlook API</span><span class="pill">Web Scraping</span></div></div>
-<div class="skill-card fade-up"><div class="skill-icon">👁️</div><div class="skill-name">AI & Computer Vision</div><div class="skill-pills"><span class="pill">OpenCV</span><span class="pill">MediaPipe</span><span class="pill">NLP</span><span class="pill">Image Processing</span></div></div>
-</div>
+  <div class="section-label">Toolkit</div>
+  <div class="section-title">Technical skills</div>
+  <div class="skills-grid">
+    <div class="skill-card fade-up"><div class="skill-icon">📊</div><div class="skill-name">BI & Visualization</div><div class="skill-pills"><span class="pill hi">Power BI</span><span class="pill hi">DAX</span><span class="pill">Databricks</span><span class="pill">Power Query</span></div></div>
+    <div class="skill-card fade-up"><div class="skill-icon">🗄️</div><div class="skill-name">Databases</div><div class="skill-pills"><span class="pill hi">SQL</span><span class="pill hi">MySQL</span><span class="pill">ETL</span><span class="pill">Data Cleaning</span></div></div>
+    <div class="skill-card fade-up"><div class="skill-icon">🐍</div><div class="skill-name">Programming</div><div class="skill-pills"><span class="pill hi">Python</span><span class="pill">Pandas</span><span class="pill">Scikit-learn</span><span class="pill">NLP</span><span class="pill">C++</span></div></div>
+    <div class="skill-card fade-up"><div class="skill-icon">⚡</div><div class="skill-name">Automation</div><div class="skill-pills"><span class="pill hi">n8n</span><span class="pill hi">Power Automate</span><span class="pill">Vapi AI Agents</span><span class="pill">Outlook API</span></div></div>
+    <div class="skill-card fade-up"><div class="skill-icon">👁️</div><div class="skill-name">AI & Computer Vision</div><div class="skill-pills"><span class="pill">OpenCV</span><span class="pill">MediaPipe</span><span class="pill">NLP</span><span class="pill">Image Processing</span></div></div>
+    <div class="skill-card fade-up"><div class="skill-icon">📋</div><div class="skill-name">Spreadsheets</div><div class="skill-pills"><span class="pill hi">Excel Advanced</span><span class="pill">Google Sheets</span><span class="pill">Pivot Tables</span></div></div>
+  </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="projects">
-<div class="section-label">Work</div>
-<div class="section-title">Projects</div>
-<div class="projects-grid" id="projects-container">
-<div class="proj-card fade-up">
-<div class="proj-header"><div class="proj-name">Meat Inspector Lens</div><span class="proj-status s-ongoing">Ongoing — FYP</span></div>
-<p class="proj-desc">AI-powered mobile app that identifies meat type (beef, chicken, pork) and freshness using computer vision & image processing. Integrates IoT gas sensors for real-time shop monitoring. Includes a feedback pipeline to food authorities for regulatory transparency.</p>
-<div class="tag-row" style="margin-bottom:12px"><span class="tag">AI</span><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">OpenCV</span><span class="tag">Mobile</span></div>
-<a href="https://github.com/MuhibAjaz" target="_blank" class="proj-link">GitHub ↗</a>
-</div>
-<div class="proj-card fade-up">
-<div class="proj-header"><div class="proj-name">Sales Outreach Automation</div><span class="proj-status s-done">Live</span></div>
-<p class="proj-desc">Built a fully automated daily email outreach system using n8n + Python + Outlook API + OpenAI API. Sends personalized sales emails at scale with zero manual input. Contributed to 3 successful deal closures within 3 months of deployment.</p>
-<div class="tag-row"><span class="tag">n8n</span><span class="tag">Python</span><span class="tag">Outlook API</span><span class="tag">OpenAI API</span><span class="tag">Automation</span></div>
-</div>
-<div class="proj-card fade-up">
-<div class="proj-header"><div class="proj-name">AI Calling Agents</div><span class="proj-status s-done">Ongoing</span></div>
-<p class="proj-desc">Deployed Vapi-powered AI voice agents that autonomously schedule and manage client calls. Handles call routing, scheduling logic, and follow-ups — removing the need for manual coordination entirely.</p>
-<div class="tag-row"><span class="tag">Vapi</span><span class="tag">AI Agents</span><span class="tag">n8n</span><span class="tag">Voice Automation</span></div>
-</div>
-<div class="proj-card fade-up">
-<div class="proj-header"><div class="proj-name">LinkedIn Outreach Automation</div><span class="proj-status s-progress">In Progress</span></div>
-<p class="proj-desc">Building a fully automated LinkedIn outreach pipeline using n8n + Python. Automatically sends connection requests, then triggers personalized follow-up messages upon acceptance — zero manual input at every stage.</p>
-<div class="tag-row"><span class="tag">n8n</span><span class="tag">Python</span><span class="tag">LinkedIn API</span><span class="tag">Automation</span></div>
-</div>
-<div class="proj-card fade-up">
-<div class="proj-header"><div class="proj-name">Business Intelligence Dashboards</div><span class="proj-status s-done">Live</span></div>
-<p class="proj-desc">Suite of Power BI dashboards across sales, operations, management & finance. Built for IP Global and Sarmaya Financials — covering KPI tracking, stock AUM trends, and real-time operational reporting. Cut manual reporting by 70%.</p>
-<div class="tag-row"><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">DAX</span><span class="tag">Excel</span><span class="tag">Financial Data</span></div>
-</div>
-</div>
+  <div class="section-label">Work</div>
+  <div class="section-title">Projects</div>
+  <div class="projects-grid" id="projects-container">
+    <div class="proj-card fade-up">
+      <div class="proj-header"><div class="proj-name">Meat Inspector Lens</div><span class="proj-status s-ongoing">Ongoing — FYP</span></div>
+      <p class="proj-desc">AI-powered mobile app that identifies meat type (beef, chicken, pork) and freshness using computer vision & image processing. Integrates IoT gas sensors for real-time shop monitoring.</p>
+      <div class="tag-row"><span class="tag">AI</span><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">OpenCV</span></div>
+    </div>
+    <div class="proj-card fade-up">
+      <div class="proj-header"><div class="proj-name">Sales Outreach Automation</div><span class="proj-status s-done">Live</span></div>
+      <p class="proj-desc">Fully automated daily email outreach using n8n + Python + Outlook API + OpenAI API. Sends personalized emails at scale with zero manual input. Contributed to 3 deal closures within 3 months.</p>
+      <div class="tag-row"><span class="tag">n8n</span><span class="tag">Python</span><span class="tag">Outlook API</span><span class="tag">OpenAI API</span></div>
+    </div>
+    <div class="proj-card fade-up">
+      <div class="proj-header"><div class="proj-name">AI Calling Agents</div><span class="proj-status s-done">Ongoing</span></div>
+      <p class="proj-desc">Vapi-powered AI voice agents that autonomously schedule and manage client calls. Handles routing, scheduling logic, and follow-ups with zero manual coordination.</p>
+      <div class="tag-row"><span class="tag">Vapi</span><span class="tag">AI Agents</span><span class="tag">n8n</span><span class="tag">Voice Automation</span></div>
+    </div>
+    <div class="proj-card fade-up">
+      <div class="proj-header"><div class="proj-name">Business Intelligence Dashboards</div><span class="proj-status s-done">Live</span></div>
+      <p class="proj-desc">Power BI dashboards for IP Global and Sarmaya Financials covering KPIs, stock AUM trends, and operational reporting. Cut manual reporting by 70%.</p>
+      <div class="tag-row"><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">DAX</span><span class="tag">Excel</span></div>
+    </div>
+  </div>
 </section>
 
 <div class="divider"></div>
 
 <section>
-<div class="section-label">Credentials</div>
-<div class="section-title">Education & certifications</div>
-<div id="certs-container" class="certs-grid">
-<div class="cert-card fade-up"><div class="cert-badge">🎓</div><div><div class="cert-name">BS Computer Science</div><div class="cert-issuer">NUML Islamabad · CGPA 3.4/4.0</div><div class="cert-date">2022 – 2026 · Final Year</div></div></div>
-<div class="cert-card fade-up"><div class="cert-badge">✅</div><div><div class="cert-name">SQL Basic & Intermediate</div><div class="cert-issuer">HackerRank · Verified</div><div class="cert-date">November 2024</div></div></div>
-<div class="cert-card fade-up"><div class="cert-badge">📚</div><div><div class="cert-name">Intermediate – Pre-Medical</div><div class="cert-issuer">Adamjee Govt. Science College, Karachi</div><div class="cert-date">2019 – 2021 · 94%</div></div></div>
-</div>
+  <div class="section-label">Credentials</div>
+  <div class="section-title">Education & certifications</div>
+  <div id="certs-container" class="certs-grid">
+    <div class="cert-card fade-up"><div class="cert-badge">🎓</div><div><div class="cert-name">BS Computer Science</div><div class="cert-issuer">NUML Islamabad · CGPA 3.4/4.0</div><div class="cert-date">2022 – 2026 · Final Year</div></div></div>
+    <div class="cert-card fade-up"><div class="cert-badge">✅</div><div><div class="cert-name">SQL Basic & Intermediate</div><div class="cert-issuer">HackerRank · Verified</div><div class="cert-date">November 2024</div></div></div>
+    <div class="cert-card fade-up"><div class="cert-badge">📚</div><div><div class="cert-name">Intermediate – Pre-Medical</div><div class="cert-issuer">Adamjee Govt. Science College, Karachi</div><div class="cert-date">2019 – 2021 · 94%</div></div></div>
+  </div>
 </section>
 
 <div class="divider"></div>
 
 <section id="contact">
-<div class="section-label">Let's talk</div>
-<div class="section-title">Get in touch</div>
-<div class="contact-grid">
-<div class="contact-items">
-<div class="contact-item fade-up"><div class="ci-icon">✉️</div><div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:muhibajaz333@gmail.com" style="color:var(--green)">muhibajaz333@gmail.com</a></div></div></div>
-<div class="contact-item fade-up"><div class="ci-icon">📞</div><div><div class="ci-label">Phone</div><div class="ci-value"><a href="tel:+923243482205" style="color:inherit">0324-3482205</a></div></div></div>
-<div class="contact-item fade-up"><div class="ci-icon">💼</div><div><div class="ci-label">LinkedIn</div><div class="ci-value"><a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" style="color:var(--green)">Muhib Ajaz ↗</a></div></div></div>
-<div class="contact-item fade-up"><div class="ci-icon">⌥</div><div><div class="ci-label">GitHub</div><div class="ci-value"><a href="https://github.com/MuhibAjaz" target="_blank" style="color:var(--green)">MuhibAjaz ↗</a></div></div></div>
-<div class="contact-item fade-up"><div class="ci-icon">📍</div><div><div class="ci-label">Location</div><div class="ci-value">G-15, Islamabad, Pakistan</div></div></div>
-</div>
-<div class="contact-form fade-up">
-<div class="form-title">Send a message</div>
-<div class="fg"><label>Your name</label><input type="text" id="msg-name" placeholder="Muhib Ajaz"></div>
-<div class="fg"><label>Email address</label><input type="email" id="msg-email" placeholder="muhibajaz333@gmail.com"></div>
-<div class="fg"><label>Message</label><textarea id="msg-body" placeholder="Tell me about the opportunity..."></textarea></div>
-<button class="btn-submit" onclick="sendMsg()">Send message →</button>
-</div>
-</div>
+  <div class="section-label">Let's talk</div>
+  <div class="section-title">Get in touch</div>
+  <div class="contact-grid">
+    <div class="contact-items">
+      <div class="contact-item fade-up"><div class="ci-icon">✉️</div><div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:muhibajaz333@gmail.com" style="color:var(--green)">muhibajaz333@gmail.com</a></div></div></div>
+      <div class="contact-item fade-up"><div class="ci-icon">📞</div><div><div class="ci-label">Phone</div><div class="ci-value"><a href="tel:+923243482205" style="color:inherit">0324-3482205</a></div></div></div>
+      <div class="contact-item fade-up"><div class="ci-icon">💼</div><div><div class="ci-label">LinkedIn</div><div class="ci-value"><a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" style="color:var(--green)">Muhib Ajaz ↗</a></div></div></div>
+      <div class="contact-item fade-up"><div class="ci-icon">⌥</div><div><div class="ci-label">GitHub</div><div class="ci-value"><a href="https://github.com/MuhibAjaz" target="_blank" style="color:var(--green)">MuhibAjaz ↗</a></div></div></div>
+      <div class="contact-item fade-up"><div class="ci-icon">📍</div><div><div class="ci-label">Location</div><div class="ci-value">G-15, Islamabad, Pakistan</div></div></div>
+    </div>
+    <div class="contact-form fade-up">
+      <div class="form-title">Send a message</div>
+      <div class="fg"><label>Your name</label><input type="text" id="msg-name" placeholder="Your name"></div>
+      <div class="fg"><label>Email address</label><input type="email" id="msg-email" placeholder="your@email.com"></div>
+      <div class="fg"><label>Message</label><textarea id="msg-body" placeholder="Tell me about the opportunity..."></textarea></div>
+      <button class="btn-submit" onclick="sendMsg()">Send message →</button>
+    </div>
+  </div>
 </section>
 
 <footer><span>Muhib Ullah</span> · Data Analyst & Automation Engineer · Islamabad · <span>2026</span></footer>
 
 <button class="fab" onclick="openPwGate()" title="Edit portfolio">⚙</button>
 
-<!-- ═══════════════════════════════════════════
+<!-- ══════════════════════════════════════
      AI AVATAR MODAL
-═══════════════════════════════════════════ -->
-<div class="avatar-modal-overlay" id="avatarModal" onclick="handleModalClick(event)">
-<div class="avatar-modal-box">
-<button class="avatar-modal-close" onclick="closeAvatarModal()">×</button>
-<div class="av-page">
-<div class="av-header">
-<h2>Muhib Ullah</h2>
-<p>Data Analyst &amp; Automation Engineer</p>
-</div>
+══════════════════════════════════════ -->
+<div class="av-modal-overlay" id="avatarModal" onclick="handleModalBg(event)">
+  <div class="av-modal-box">
+    <button class="av-modal-close" onclick="closeAvatarModal()">✕</button>
+    <div class="av-page">
 
-<div style="display:flex;flex-direction:column;align-items:center;gap:10px">
-<div class="av-ring-wrap">
-<div class="av-ring" id="avRing"></div>
-<img class="av-img" id="avImg" src="PHOTO_PLACEHOLDER" alt="Muhib">
-<div class="av-eye-overlay" id="avEyeOverlay">
-<div class="av-eye" id="avEyeL"></div>
-<div class="av-eye" id="avEyeR"></div>
-</div>
-<div class="av-mouth-overlay" id="avMouthOverlay">
-<svg width="36" height="15" viewBox="0 0 36 15">
-<ellipse id="avMouth" cx="18" cy="7.5" rx="3" ry="1.5" fill="#150808" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-</svg>
-</div>
-</div>
-<div class="av-sound-bars" id="avSoundBars">
-<div class="av-bar" id="avb1"></div><div class="av-bar" id="avb2"></div>
-<div class="av-bar" id="avb3"></div><div class="av-bar" id="avb4"></div>
-<div class="av-bar" id="avb5"></div>
-</div>
-<div class="av-status-row">
-<div class="av-dot" id="avDot"></div>
-<span id="avStatus">Say hello to Muhib</span>
-</div>
-</div>
+      <div class="av-header">
+        <h2>Muhib Ullah</h2>
+        <p>Data Analyst &amp; Automation Engineer</p>
+      </div>
 
-<div class="av-chat-log" id="avChat">
-<div class="av-placeholder" id="avPlaceholder">
-Press <strong style="color:#4fc3f7">Talk</strong> and ask me anything —<br>my experience, projects, skills, or hiring info.
-</div>
-</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+        <div class="av-ring-wrap">
+          <div class="av-ring" id="avRing"></div>
+          <img class="av-img" id="avImg" src="" alt="Muhib" onerror="this.style.display='none';document.getElementById('avInitials').style.display='flex'">
+          <!-- fallback initials if no photo -->
+          <div id="avInitials" style="display:none;position:absolute;inset:0;z-index:1;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));align-items:center;justify-content:center;font-family:var(--font-head);font-size:48px;color:#08080e">MA</div>
+          <div class="av-eye-overlay">
+            <div class="av-eye" id="avEyeL"></div>
+            <div class="av-eye" id="avEyeR"></div>
+          </div>
+          <div class="av-mouth-overlay" id="avMouthOverlay">
+            <svg width="34" height="14" viewBox="0 0 34 14">
+              <ellipse id="avMouth" cx="17" cy="7" rx="3" ry="1.5" fill="#150808" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
+            </svg>
+          </div>
+        </div>
+        <div class="av-sound-bars" id="avSoundBars">
+          <div class="av-bar" id="avb1"></div><div class="av-bar" id="avb2"></div>
+          <div class="av-bar" id="avb3"></div><div class="av-bar" id="avb4"></div>
+          <div class="av-bar" id="avb5"></div>
+        </div>
+        <div class="av-status-row">
+          <div class="av-dot" id="avDot"></div>
+          <span id="avStatus">Say hello to Muhib</span>
+        </div>
+      </div>
 
-<button class="av-talk-btn" id="avTalkBtn" onclick="avToggleListen()">
-<span style="font-size:18px">🎙</span>
-<span id="avTalkLabel">Hold to Talk</span>
-</button>
+      <div class="av-chat-log" id="avChat">
+        <div class="av-placeholder" id="avPlaceholder">
+          Press <strong style="color:var(--green)">Talk</strong> and ask me anything —<br>
+          my experience, projects, skills, or hiring info.
+        </div>
+      </div>
 
-<div class="av-text-row">
-<input class="av-text-input" id="avTextInput" placeholder="Or type your question here…" maxlength="300">
-<button class="av-send-btn" onclick="avSendText()">▶</button>
-</div>
+      <button class="av-talk-btn" id="avTalkBtn" onclick="avToggleListen()">
+        <span style="font-size:18px">🎙</span>
+        <span id="avTalkLabel">Hold to Talk</span>
+      </button>
 
-<div class="av-sugs">
-<button class="av-sug" onclick="avAsk(this.textContent)">Tell me about yourself</button>
-<button class="av-sug" onclick="avAsk(this.textContent)">What's your tech stack?</button>
-<button class="av-sug" onclick="avAsk(this.textContent)">Best project you built?</button>
-<button class="av-sug" onclick="avAsk(this.textContent)">Are you open to hire?</button>
-<button class="av-sug" onclick="avAsk(this.textContent)">What do you do at IP Global?</button>
-</div>
-</div>
-</div>
+      <div class="av-text-row">
+        <input class="av-text-input" id="avTextInput" placeholder="Or type your question here…" maxlength="300">
+        <button class="av-send-btn" onclick="avSendText()">▶</button>
+      </div>
+
+      <div class="av-sugs">
+        <button class="av-sug" onclick="avAsk(this.textContent)">Tell me about yourself</button>
+        <button class="av-sug" onclick="avAsk(this.textContent)">What's your tech stack?</button>
+        <button class="av-sug" onclick="avAsk(this.textContent)">Best project you built?</button>
+        <button class="av-sug" onclick="avAsk(this.textContent)">Are you open to hire?</button>
+        <button class="av-sug" onclick="avAsk(this.textContent)">What do you do at IP Global?</button>
+      </div>
+
+    </div>
+  </div>
 </div>
 
 <!-- PASSWORD GATE -->
 <div class="pw-ov" id="pw-ov">
-<div class="pw-box">
-<button class="pw-close" onclick="closePwGate()">✕</button>
-<div class="pw-icon">🔐</div>
-<div class="pw-title">Admin Access</div>
-<div class="pw-sub">Enter password to edit portfolio</div>
-<div class="pw-error" id="pw-error">Incorrect password. Try again.</div>
-<div class="pw-input-wrap">
-<input type="password" class="pw-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
-<button class="pw-toggle" id="pw-toggle" onclick="togglePwVis()" title="Show/hide">👁</button>
-</div>
-<button class="pw-btn" onclick="checkPw()">Unlock →</button>
-</div>
+  <div class="pw-box">
+    <button class="pw-close" onclick="closePwGate()">✕</button>
+    <div class="pw-icon">🔐</div>
+    <div class="pw-title">Admin Access</div>
+    <div class="pw-sub">Enter password to edit portfolio</div>
+    <div class="pw-error" id="pw-error">Incorrect password. Try again.</div>
+    <div class="pw-input-wrap">
+      <input type="password" class="pw-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
+      <button class="pw-toggle" id="pw-toggle" onclick="togglePwVis()" title="Show/hide">👁</button>
+    </div>
+    <button class="pw-btn" onclick="checkPw()">Unlock →</button>
+  </div>
 </div>
 
-<!-- ADMIN OVERLAY -->
+<!-- ADMIN PANEL -->
 <div class="admin-ov" id="admin-ov">
-<div class="admin-panel">
-<div class="adm-head"><span class="adm-title">EDIT YOUR PORTFOLIO</span><button class="adm-close" onclick="closeAdmin()">✕</button></div>
-<div class="adm-sec">
-<div class="adm-sec-title">Profile Photo</div>
-<div class="upload-zone"><input type="file" accept="image/*" onchange="handleAdminPhoto(this)"><div class="upload-icon">🖼️</div><div class="upload-label">Drop photo or <strong>click to browse</strong><br><span style="font-size:11px">Round JPG/PNG · Recommended 400×400</span></div></div>
-<div class="upload-preview" id="photo-preview"><img class="preview-img" id="preview-img-el" src="" alt=""><span class="preview-name" id="preview-photo-name"></span><button class="preview-remove" onclick="removePhoto()">✕</button></div>
-</div>
-<div class="adm-sec">
-<div class="adm-sec-title">CV / Resume (PDF)</div>
-<div class="upload-zone"><input type="file" accept=".pdf" onchange="handleCV(this)"><div class="upload-icon">📄</div><div class="upload-label">Drop your CV PDF or <strong>click to browse</strong></div></div>
-<div class="upload-preview" id="cv-preview"><span style="font-size:20px">📄</span><span class="preview-name" id="preview-cv-name"></span><button class="preview-remove" onclick="removeCV()">✕</button></div>
-</div>
-<div class="adm-sec">
-<div class="adm-sec-title">Description</div>
-<textarea class="adm-input adm-ta" id="admin-bio">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</textarea>
-<button class="btn-add" onclick="saveBio()">Update bio text</button>
-</div>
-<div class="adm-sec">
-<div class="adm-sec-title">Add a Project</div>
-<input class="adm-input" id="proj-name" placeholder="Project name">
-<div class="cols2"><input class="adm-input" id="proj-tags" placeholder="Tags (comma separated)"><select class="adm-input" id="proj-status-sel"><option value="ongoing">Ongoing</option><option value="done">Shipped / Live</option><option value="progress">In Progress</option></select></div>
-<textarea class="adm-input adm-ta" id="proj-desc-adm" placeholder="Project description..."></textarea>
-<input class="adm-input" id="proj-link-adm" placeholder="GitHub or live link (optional)">
-<button class="btn-add" onclick="addProject()">+ Add project</button>
-</div>
-<div class="adm-sec">
-<div class="adm-sec-title">Add Certification</div>
-<div class="cols2"><input class="adm-input" id="cert-name" placeholder="Certification name"><input class="adm-input" id="cert-issuer" placeholder="Issuer (e.g. Coursera)"></div>
-<input class="adm-input" id="cert-date" placeholder="Date (e.g. March 2025)">
-<button class="btn-add" onclick="addCert()">+ Add certification</button>
-</div>
-<button class="btn-save-all" onclick="saveAll()">💾 Save & close</button>
-</div>
+  <div class="admin-panel">
+    <div class="adm-head"><span class="adm-title">EDIT YOUR PORTFOLIO</span><button class="adm-close" onclick="closeAdmin()">✕</button></div>
+    <div class="adm-sec">
+      <div class="adm-sec-title">Profile Photo</div>
+      <div class="upload-zone"><input type="file" accept="image/*" onchange="handleAdminPhoto(this)"><div class="upload-icon">🖼️</div><div class="upload-label">Drop photo or <strong>click to browse</strong><br><span style="font-size:11px">Round JPG/PNG · Recommended 400×400</span></div></div>
+      <div class="upload-preview" id="photo-preview"><img class="preview-img" id="preview-img-el" src="" alt=""><span class="preview-name" id="preview-photo-name"></span><button class="preview-remove" onclick="removePhoto()">✕</button></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sec-title">CV / Resume (PDF)</div>
+      <div class="upload-zone"><input type="file" accept=".pdf" onchange="handleCV(this)"><div class="upload-icon">📄</div><div class="upload-label">Drop your CV PDF or <strong>click to browse</strong></div></div>
+      <div class="upload-preview" id="cv-preview"><span style="font-size:20px">📄</span><span class="preview-name" id="preview-cv-name"></span><button class="preview-remove" onclick="removeCV()">✕</button></div>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sec-title">Bio Text</div>
+      <textarea class="adm-input adm-ta" id="admin-bio">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</textarea>
+      <button class="btn-add" onclick="saveBio()">Update bio text</button>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sec-title">Add a Project</div>
+      <input class="adm-input" id="proj-name" placeholder="Project name">
+      <div class="cols2"><input class="adm-input" id="proj-tags" placeholder="Tags (comma separated)"><select class="adm-input" id="proj-status-sel"><option value="ongoing">Ongoing</option><option value="done">Shipped / Live</option><option value="progress">In Progress</option></select></div>
+      <textarea class="adm-input adm-ta" id="proj-desc-adm" placeholder="Project description..."></textarea>
+      <input class="adm-input" id="proj-link-adm" placeholder="GitHub or live link (optional)">
+      <button class="btn-add" onclick="addProject()">+ Add project</button>
+    </div>
+    <div class="adm-sec">
+      <div class="adm-sec-title">Add Certification</div>
+      <div class="cols2"><input class="adm-input" id="cert-name" placeholder="Certification name"><input class="adm-input" id="cert-issuer-inp" placeholder="Issuer"></div>
+      <input class="adm-input" id="cert-date-inp" placeholder="Date (e.g. March 2025)">
+      <button class="btn-add" onclick="addCert()">+ Add certification</button>
+    </div>
+    <button class="btn-save-all" onclick="saveAll()">💾 Save & close</button>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -662,10 +767,10 @@ const wrap = document.getElementById('card-wrap');
 if (wrap) {
   wrap.addEventListener('mousemove', e => {
     const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left - r.width / 2;
-    const y = e.clientY - r.top - r.height / 2;
-    card.style.transform = `rotateX(${(y/r.height)*14}deg) rotateY(${-(x/r.width)*14}deg) scale(1.02)`;
-    shine.style.background = `radial-gradient(circle at ${((e.clientX-r.left)/r.width*100).toFixed(1)}% ${((e.clientY-r.top)/r.height*100).toFixed(1)}%, rgba(255,255,255,.08), transparent 60%)`;
+    const x = e.clientX - r.left - r.width/2;
+    const y = e.clientY - r.top - r.height/2;
+    card.style.transform = `rotateX(${(y/r.height)*12}deg) rotateY(${-(x/r.width)*12}deg) scale(1.02)`;
+    shine.style.background = `radial-gradient(circle at ${((e.clientX-r.left)/r.width*100).toFixed(1)}% ${((e.clientY-r.top)/r.height*100).toFixed(1)}%, rgba(255,255,255,.07), transparent 60%)`;
     shine.style.opacity = '1';
   });
   wrap.addEventListener('mouseleave', () => {
@@ -674,7 +779,24 @@ if (wrap) {
   });
 }
 
+// ── AVATAR PHOTO SYNC ──
+// Whenever the profile card avatar is set, also update the modal avatar
+function setAvatar(url) {
+  const photo = document.getElementById('avatar-photo');
+  const initials = document.getElementById('avatar-initials');
+  const avImg = document.getElementById('avImg');
+  const avInitials = document.getElementById('avInitials');
+  if (url) {
+    photo.src = url; photo.style.display = 'block'; initials.style.display = 'none';
+    avImg.src = url; avImg.style.display = 'block'; avInitials.style.display = 'none';
+  } else {
+    photo.style.display = 'none'; initials.style.display = 'flex';
+    avImg.style.display = 'none'; avInitials.style.display = 'flex';
+  }
+}
+
 // ── AVATAR MODAL ──
+let avInitialized = false;
 function openAvatarModal() {
   document.getElementById('avatarModal').classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -687,7 +809,7 @@ function closeAvatarModal() {
   avStopSpeaking();
   if (avRecognition) { try { avRecognition.stop(); } catch(e){} }
 }
-function handleModalClick(e) {
+function handleModalBg(e) {
   if (e.target === document.getElementById('avatarModal')) closeAvatarModal();
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAvatarModal(); });
@@ -697,23 +819,21 @@ const AV_SYSTEM = `You are Muhib Ullah, a Data Analyst and Automation Engineer. 
 
 PERSONAL: Final year CS student at NUML Islamabad, graduating 2026, CGPA 3.4. Based in G-15, Islamabad.
 CURRENT JOB: Data Analyst & Automation Engineer at IP Global (Sep 2025–present). SQL queries, ETL pipelines, n8n automation, Power BI dashboards, VAPI AI calling agents, n8n+Outlook+OpenAI email outreach, website chatbots.
-PAST: Data Science Intern at 10Pearls (Nov 2025–Feb 2026) — environmental data pipelines, EDA, predictive models. Data Analyst Intern at Sarmaya Financials (Jul–Aug 2024) — Power BI dashboards for live stock and AUM data.
+PAST: Data Science Intern at 10Pearls (Nov 2025–Feb 2026). Data Analyst Intern at Sarmaya Financials (Jul–Aug 2024) — Power BI for live stock and AUM data.
 SKILLS: SQL, Python (Pandas, Scikit-learn, OpenCV, MediaPipe), Power BI (DAX, Power Query), n8n, Vapi, Power Automate, Outlook API, Excel, Databricks, NLP, Web Scraping, C++.
-PROJECTS: 1) Sales Outreach Automation (Live) — n8n+Python+Outlook API+OpenAI, helped close 3 deals in 3 months. 2) AI Calling Agents (Ongoing) — Vapi voice agents for client calls. 3) LinkedIn Outreach Automation (In Progress). 4) BI Dashboards (Live) — cut manual reporting 70%. 5) Meat Inspector Lens (FYP) — AI app detecting meat type/freshness using computer vision+IoT.
-CONTACT: muhibajaz333@gmail.com | LinkedIn: muhibajaz01 | GitHub: MuhibAjaz | Response: ~3 hours | Open to work.
-PERSONALITY: Confident, passionate about automation. Direct and practical. Loves n8n. Proud of building real systems with real results.
+PROJECTS: 1) Sales Outreach Automation (Live) — n8n+Python+Outlook+OpenAI, helped close 3 deals in 3 months. 2) AI Calling Agents (Ongoing) — Vapi voice agents. 3) BI Dashboards (Live) — cut manual reporting 70%. 4) Meat Inspector Lens (FYP) — AI app detecting meat type/freshness.
+CONTACT: muhibajaz333@gmail.com | LinkedIn: muhibajaz01 | GitHub: MuhibAjaz | ~3h response | Open to work.
 Rules: Never break character. Keep it human and warm.`;
 
 let avHistory = [];
 let avIsSpeaking = false, avIsListening = false, avIsThinking = false;
 let avBlinkTimer = null, avMouthTimer = null, avRecognition = null;
-let avInitialized = false;
 
-const avEl = (id) => document.getElementById(id);
+const avEl = id => document.getElementById(id);
 
 function avSetStatus(text, mode) {
   avEl('avStatus').textContent = text;
-  avEl('avDot').className = 'av-dot' + (mode ? ' ' + mode : '');
+  avEl('avDot').className = 'av-dot' + (mode ? ' '+mode : '');
   avEl('avRing').classList.toggle('speaking', mode === 'speaking');
 }
 
@@ -721,9 +841,9 @@ function avStartBlink() {
   function blink() {
     avEl('avEyeL').classList.add('closed'); avEl('avEyeR').classList.add('closed');
     setTimeout(() => { avEl('avEyeL').classList.remove('closed'); avEl('avEyeR').classList.remove('closed'); }, 100);
-    avBlinkTimer = setTimeout(blink, 2500 + Math.random() * 3000);
+    avBlinkTimer = setTimeout(blink, 2500 + Math.random()*3000);
   }
-  avBlinkTimer = setTimeout(blink, 1500 + Math.random() * 2000);
+  avBlinkTimer = setTimeout(blink, 1500 + Math.random()*2000);
 }
 
 function avAnimateMouth() {
@@ -734,7 +854,7 @@ function avAnimateMouth() {
     const s = shapes[idx % shapes.length];
     avEl('avMouth').setAttribute('rx', s.rx); avEl('avMouth').setAttribute('ry', s.ry);
     idx++;
-    avMouthTimer = setTimeout(step, 75 + Math.random() * 95);
+    avMouthTimer = setTimeout(step, 75 + Math.random()*95);
   }
   step();
 }
@@ -762,63 +882,45 @@ function avStopSpeaking() {
 }
 
 function avAddMsg(text, role) {
-  const p = avEl('avPlaceholder');
-  if (p) p.remove();
-  const msg = document.createElement('div');
-  msg.className = `av-msg ${role}`;
-  const label = document.createElement('div');
-  label.className = 'av-msg-label';
-  label.textContent = role === 'user' ? 'You' : 'Muhib';
-  const bubble = document.createElement('div');
-  bubble.className = 'av-bubble';
-  bubble.textContent = text;
+  const p = avEl('avPlaceholder'); if (p) p.remove();
+  const msg = document.createElement('div'); msg.className = `av-msg ${role}`;
+  const label = document.createElement('div'); label.className = 'av-msg-label'; label.textContent = role === 'user' ? 'You' : 'Muhib';
+  const bubble = document.createElement('div'); bubble.className = 'av-bubble'; bubble.textContent = text;
   msg.appendChild(label); msg.appendChild(bubble);
   avEl('avChat').appendChild(msg);
   avEl('avChat').scrollTop = avEl('avChat').scrollHeight;
 }
 
 function avShowTyping() {
-  const p = avEl('avPlaceholder');
-  if (p) p.remove();
-  const msg = document.createElement('div');
-  msg.className = 'av-msg bot'; msg.id = 'avTyping';
-  const label = document.createElement('div');
-  label.className = 'av-msg-label'; label.textContent = 'Muhib';
-  const dots = document.createElement('div');
-  dots.className = 'av-typing-dots av-bubble';
+  const p = avEl('avPlaceholder'); if (p) p.remove();
+  const msg = document.createElement('div'); msg.className = 'av-msg bot'; msg.id = 'avTyping';
+  const label = document.createElement('div'); label.className = 'av-msg-label'; label.textContent = 'Muhib';
+  const dots = document.createElement('div'); dots.className = 'av-typing-dots av-bubble';
   dots.innerHTML = '<span></span><span></span><span></span>';
   msg.appendChild(label); msg.appendChild(dots);
   avEl('avChat').appendChild(msg);
   avEl('avChat').scrollTop = avEl('avChat').scrollHeight;
 }
 
-function avRemoveTyping() {
-  const t = avEl('avTyping');
-  if (t) t.remove();
-}
+function avRemoveTyping() { const t = avEl('avTyping'); if (t) t.remove(); }
 
 async function avProcess(question) {
   if (avIsThinking || avIsSpeaking) return;
   avAddMsg(question, 'user');
-  avHistory.push({ role: 'user', content: question });
+  avHistory.push({ role:'user', content:question });
   avIsThinking = true;
   avEl('avTalkBtn').disabled = true;
   avSetStatus('Thinking…', 'thinking');
   avShowTyping();
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: AV_SYSTEM,
-        messages: avHistory
-      })
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:AV_SYSTEM, messages:avHistory })
     });
     const data = await res.json();
-    const reply = data.content?.[0]?.text || "Sorry, I couldn't respond. Please try again.";
-    avHistory.push({ role: 'assistant', content: reply });
+    const reply = data.content?.[0]?.text || "Sorry, couldn't respond. Please try again.";
+    avHistory.push({ role:'assistant', content:reply });
     avRemoveTyping();
     avAddMsg(reply, 'bot');
     avIsThinking = false;
@@ -838,10 +940,7 @@ function avSpeak(text) {
   const u = new SpeechSynthesisUtterance(text);
   u.rate = 0.95; u.pitch = 0.92;
   const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
-  const pref = voices.find(v =>
-    v.name.includes('Google UK English Male') || v.name.includes('Daniel') ||
-    v.name.includes('Google US English') || v.name.includes('Microsoft Guy') || v.name.includes('Microsoft David')
-  );
+  const pref = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Daniel') || v.name.includes('Google US English') || v.name.includes('Microsoft David'));
   if (pref) u.voice = pref;
   u.onstart = avStartSpeaking;
   u.onend = avStopSpeaking;
@@ -869,17 +968,11 @@ function avStartListening() {
     avEl('avTalkLabel').textContent = 'Listening… (click to stop)';
     avSetStatus('Listening…', 'listening');
   };
-  avRecognition.onresult = (e) => {
+  avRecognition.onresult = e => {
     const t = Array.from(e.results).map(r => r[0].transcript).join('');
-    if (e.results[e.results.length-1].isFinal) {
-      avStopListening();
-      if (t.trim()) avProcess(t.trim());
-    }
+    if (e.results[e.results.length-1].isFinal) { avStopListening(); if (t.trim()) avProcess(t.trim()); }
   };
-  avRecognition.onerror = (e) => {
-    avStopListening();
-    if (e.error === 'not-allowed') showToast('Microphone access denied');
-  };
+  avRecognition.onerror = e => { avStopListening(); if (e.error === 'not-allowed') showToast('Microphone access denied'); };
   avRecognition.onend = () => { if (avIsListening) avStopListening(); };
   avRecognition.start();
 }
@@ -899,11 +992,7 @@ function avSendText() {
   avProcess(q);
 }
 
-function avAsk(text) {
-  if (avIsThinking || avIsSpeaking) return;
-  avProcess(text);
-}
-
+function avAsk(text) { if (!avIsThinking && !avIsSpeaking) avProcess(text); }
 avEl('avTextInput').addEventListener('keydown', e => { if (e.key === 'Enter') avSendText(); });
 
 function avInit() {
@@ -912,16 +1001,13 @@ function avInit() {
   setTimeout(() => {
     const greet = "Hey! I'm Muhib Ullah — Data Analyst and Automation Engineer based in Islamabad. Ask me anything about my work, projects, or skills!";
     avAddMsg(greet, 'bot');
-    avHistory.push({ role: 'assistant', content: greet });
+    avHistory.push({ role:'assistant', content:greet });
     avSpeak(greet);
-  }, 600);
+  }, 500);
 }
 
 // ── PASSWORD GATE ──
 const ADMIN_PW = 'Muhib@333';
-const PHOTO_B64_DATA = 'PHOTO_B64_PLACEHOLDER';
-const CV_B64_DATA = `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`;
-
 function openPwGate() {
   document.getElementById('pw-ov').classList.add('open');
   document.getElementById('pw-input').value = '';
@@ -957,16 +1043,10 @@ function handleAdminPhoto(input) {
   document.getElementById('preview-img-el').src = url;
   document.getElementById('preview-photo-name').textContent = file.name;
   document.getElementById('photo-preview').classList.add('show');
-  showToast('Photo updated!');
-}
-function setAvatar(url) {
-  const photo = document.getElementById('avatar-photo');
-  const initials = document.getElementById('avatar-initials');
-  photo.src = url; photo.style.display = 'block'; initials.style.display = 'none';
+  showToast('Photo updated in portfolio & avatar modal!');
 }
 function removePhoto() {
-  document.getElementById('avatar-photo').style.display = 'none';
-  document.getElementById('avatar-initials').style.display = 'flex';
+  setAvatar(null);
   document.getElementById('photo-preview').classList.remove('show');
   showToast('Photo removed');
 }
@@ -977,8 +1057,10 @@ function handleCV(input) {
   cvFileObj = file;
   document.getElementById('preview-cv-name').textContent = file.name;
   document.getElementById('cv-preview').classList.add('show');
-  const btn = document.getElementById('cv-btn');
-  btn.onclick = e => { e.preventDefault(); const a = document.createElement('a'); a.href = URL.createObjectURL(cvFileObj); a.download = cvFileObj.name; a.click(); };
+  document.getElementById('cv-btn').onclick = e => {
+    e.preventDefault();
+    const a = document.createElement('a'); a.href = URL.createObjectURL(cvFileObj); a.download = cvFileObj.name; a.click();
+  };
   showToast('CV ready!');
 }
 function removeCV() {
@@ -992,9 +1074,10 @@ document.getElementById('cv-btn').onclick = e => { e.preventDefault(); showToast
 function saveBio() {
   const v = document.getElementById('admin-bio').value.trim();
   if (!v) return;
-  document.querySelector('.hero-desc').textContent = v;
+  document.getElementById('hero-desc-text').textContent = v;
   showToast('Bio updated!');
 }
+
 function addProject() {
   const name = document.getElementById('proj-name').value.trim();
   const desc = document.getElementById('proj-desc-adm').value.trim();
@@ -1003,7 +1086,7 @@ function addProject() {
   const link = document.getElementById('proj-link-adm').value.trim();
   if (!name || !desc) { showToast('Name & description required'); return; }
   const sMap = { ongoing:{cls:'s-ongoing',lbl:'Ongoing'}, done:{cls:'s-done',lbl:'Live'}, progress:{cls:'s-progress',lbl:'In Progress'} };
-  const tagHTML = tags ? tags.split(',').map(t => `<span class="tag">${t.trim()}</span>`).join('') : '';
+  const tagHTML = tags ? tags.split(',').map(t=>`<span class="tag">${t.trim()}</span>`).join('') : '';
   const linkHTML = link ? `<a href="${link}" target="_blank" class="proj-link">View ↗</a>` : '';
   const c = document.createElement('div'); c.className = 'proj-card fade-up';
   c.innerHTML = `<div class="proj-header"><div class="proj-name">${name}</div><span class="proj-status ${sMap[status].cls}">${sMap[status].lbl}</span></div><p class="proj-desc">${desc}</p><div class="tag-row" style="margin-bottom:${link?'12px':'0'}">${tagHTML}</div>${linkHTML}`;
@@ -1011,17 +1094,19 @@ function addProject() {
   ['proj-name','proj-desc-adm','proj-tags','proj-link-adm'].forEach(id => document.getElementById(id).value = '');
   showToast('Project added!');
 }
+
 function addCert() {
   const name = document.getElementById('cert-name').value.trim();
-  const issuer = document.getElementById('cert-issuer').value.trim();
-  const date = document.getElementById('cert-date').value.trim();
+  const issuer = document.getElementById('cert-issuer-inp').value.trim();
+  const date = document.getElementById('cert-date-inp').value.trim();
   if (!name) { showToast('Name required'); return; }
   const c = document.createElement('div'); c.className = 'cert-card fade-up';
   c.innerHTML = `<div class="cert-badge">🏆</div><div><div class="cert-name">${name}</div><div class="cert-issuer">${issuer}</div><div class="cert-date">${date}</div></div>`;
   document.getElementById('certs-container').appendChild(c); io.observe(c);
-  ['cert-name','cert-issuer','cert-date'].forEach(id => document.getElementById(id).value = '');
+  ['cert-name','cert-issuer-inp','cert-date-inp'].forEach(id => document.getElementById(id).value = '');
   showToast('Certification added!');
 }
+
 function saveAll() { saveBio(); showToast('All changes saved!'); setTimeout(closeAdmin, 700); }
 
 function sendMsg() {
@@ -1035,7 +1120,7 @@ function sendMsg() {
 document.querySelectorAll('a[href^="#"]').forEach(a => {
   a.addEventListener('click', e => {
     const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth' }); }
   });
 });
 
@@ -1044,27 +1129,6 @@ function showToast(msg) {
   t.textContent = msg; t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2600);
 }
-
-window.addEventListener('DOMContentLoaded', () => {
-  if (typeof PHOTO_B64_DATA !== 'undefined' && PHOTO_B64_DATA && PHOTO_B64_DATA !== 'PHOTO_B64_PLACEHOLDER') {
-    setAvatar('data:image/jpeg;base64,' + PHOTO_B64_DATA);
-    // Also set avatar in modal
-    document.getElementById('avImg').src = 'data:image/jpeg;base64,' + PHOTO_B64_DATA;
-  }
-  if (typeof CV_B64_DATA !== 'undefined' && CV_B64_DATA) {
-    document.getElementById('cv-btn').onclick = e => {
-      e.preventDefault();
-      const bc = atob(CV_B64_DATA);
-      const ba = new Uint8Array(bc.length);
-      for (let i = 0; i < bc.length; i++) ba[i] = bc.charCodeAt(i);
-      const blob = new Blob([ba], { type: 'application/pdf' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-      a.download = 'Muhib_Ullah_Resume.pdf'; a.click();
-    };
-  }
-});
 </script>
 </body>
 </html>
-HTMLEOF
-echo "Template created: $(wc -l < /home/claude/index_integrated.html) lines"
