@@ -1,1134 +1,681 @@
+B64=$(cat /tmp/profile_b64.txt)
+
+cat > /home/claude/avatar_v3.html << 'HTMLEOF'
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Muhib Ajaz – Data Analyst & Automation Engineer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Talk to Muhib – AI Avatar</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-:root{
---bg:#08080e;--bg2:#0f0f1a;--bg3:#171726;--bg4:#1e1e30;
---border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.13);--border3:rgba(255,255,255,0.2);
---text:#eeeef5;--muted:#7878a0;--muted2:#5a5a80;
---green:#5df5a8;--green2:rgba(93,245,168,0.12);--green3:rgba(93,245,168,0.06);
---purple:#a78bfa;--purple2:rgba(167,139,250,0.12);
---pink:#f472b6;--pink2:rgba(244,114,182,0.1);
---gold:#fbbf24;
---font-head:'DM Serif Display',serif;--font-body:'DM Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
---r:14px;--r-sm:8px;--r-lg:20px;
-}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:var(--font-body);font-size:15px;line-height:1.7;overflow-x:hidden}
-a{color:var(--green);text-decoration:none;transition:opacity .2s}
-a:hover{opacity:.75}
-body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");pointer-events:none;z-index:9999;opacity:.5}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#0d1b2a;--accent:#4fc3f7;--accent2:#00e5ff;--text:#e8f4f8;--muted:#7fa8c0;--card:rgba(255,255,255,0.04);--border:rgba(79,195,247,0.2)}
+body{background:var(--navy);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+.bg-grid{position:fixed;inset:0;background-image:linear-gradient(rgba(79,195,247,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(79,195,247,0.035) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+.page{position:relative;z-index:1;width:100%;max-width:520px;padding:28px 20px 40px;display:flex;flex-direction:column;align-items:center;gap:20px}
+.header{text-align:center}
+.header h1{font-family:'Space Mono',monospace;font-size:clamp(18px,4vw,24px);font-weight:700;letter-spacing:.04em}
+.header p{font-size:11px;color:var(--accent);letter-spacing:.14em;text-transform:uppercase;margin-top:4px}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(8,8,14,0.8);backdrop-filter:blur(24px);border-bottom:1px solid var(--border)}
-.nav-logo{font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:1.5px;display:flex;align-items:center;gap:8px}
-.nav-logo::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.nav-links{display:flex;gap:2rem;list-style:none}
-.nav-links a{font-size:12.5px;color:var(--muted);letter-spacing:.4px;font-weight:500;transition:color .2s}
-.nav-links a:hover{color:var(--text);opacity:1}
-.nav-cta{background:var(--green)!important;color:#08080e!important;padding:6px 18px;border-radius:6px;font-weight:600!important;transition:box-shadow .2s,transform .2s!important}
-.nav-cta:hover{box-shadow:0 0 24px rgba(93,245,168,.35);transform:translateY(-1px);opacity:1!important}
+/* Avatar Canvas Container */
+.avatar-wrap{position:relative;width:240px;height:240px;flex-shrink:0}
+.avatar-ring{position:absolute;inset:-8px;border-radius:50%;border:2px solid transparent;background:linear-gradient(var(--navy),var(--navy)) padding-box,linear-gradient(135deg,var(--accent),var(--accent2),var(--accent)) border-box;transition:box-shadow .3s}
+.avatar-ring.speaking{animation:ring-pulse 1s ease-in-out infinite}
+@keyframes ring-pulse{0%,100%{box-shadow:0 0 0 4px rgba(79,195,247,0.15),0 0 20px rgba(79,195,247,0.25)}50%{box-shadow:0 0 0 8px rgba(79,195,247,0.08),0 0 36px rgba(79,195,247,0.35)}}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:6rem 2.5rem 4rem;position:relative;overflow:hidden}
-.glow{position:absolute;border-radius:50%;pointer-events:none}
-.glow-1{width:700px;height:700px;background:radial-gradient(circle,rgba(93,245,168,.07) 0%,transparent 70%);top:50%;left:40%;transform:translate(-50%,-50%)}
-.glow-2{width:500px;height:500px;background:radial-gradient(circle,rgba(167,139,250,.05) 0%,transparent 70%);top:20%;right:5%}
-.glow-3{width:300px;height:300px;background:radial-gradient(circle,rgba(244,114,182,.04) 0%,transparent 70%);bottom:15%;left:5%}
-.hero-inner{max-width:900px;width:100%;display:grid;grid-template-columns:1fr 290px;gap:4.5rem;align-items:center;position:relative;z-index:1}
-.hero-eyebrow{font-family:var(--font-mono);font-size:11px;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:1.2rem;display:flex;align-items:center;gap:10px;opacity:0;animation:fadeUp .6s .1s forwards}
-.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--green)}
-.hero h1{font-family:var(--font-head);font-size:clamp(42px,5.5vw,64px);line-height:1.08;margin-bottom:1.4rem;color:var(--text);opacity:0;animation:fadeUp .6s .2s forwards}
-.hero h1 em{font-style:italic;color:var(--green)}
-.hero-desc{color:var(--muted);font-size:15.5px;line-height:1.8;margin-bottom:2rem;max-width:500px;opacity:0;animation:fadeUp .6s .3s forwards}
-.hero-chips{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:2.5rem;opacity:0;animation:fadeUp .6s .4s forwards}
-.chip{font-family:var(--font-mono);font-size:10.5px;padding:4px 11px;border-radius:5px;border:1px solid var(--border2);color:var(--muted);background:var(--bg2);letter-spacing:.4px;transition:all .2s;cursor:default}
-.chip:hover{border-color:var(--border3);color:var(--text)}
-.chip.g{border-color:rgba(93,245,168,.25);color:var(--green);background:var(--green3)}
-.chip.p{border-color:rgba(167,139,250,.25);color:var(--purple);background:var(--purple2)}
-.chip.pk{border-color:rgba(244,114,182,.25);color:var(--pink);background:var(--pink2)}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;opacity:0;animation:fadeUp .6s .5s forwards}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border-radius:var(--r-sm);font-size:13.5px;font-weight:500;cursor:pointer;transition:all .2s;text-decoration:none;border:none;font-family:var(--font-body);white-space:nowrap}
-.btn-green{background:var(--green);color:#08080e}
-.btn-green:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(93,245,168,.3);opacity:1;color:#08080e}
-.btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border2)}
-.btn-ghost:hover{background:var(--bg3);border-color:var(--border3);opacity:1}
+/* Canvas overlays the photo */
+#avatarCanvas{width:240px;height:240px;border-radius:50%;display:block;position:relative;z-index:2}
 
-/* PROFILE CARD */
-.profile-card-wrap{perspective:1200px;opacity:0;animation:fadeUp .6s .3s forwards}
-.profile-card{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);padding:1.75rem 1.6rem;text-align:center;position:relative;overflow:hidden;transform-style:preserve-3d;transition:transform .1s ease-out;cursor:default}
-.profile-card-shine{position:absolute;inset:0;border-radius:var(--r-lg);pointer-events:none;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.06),transparent 60%);opacity:0;transition:opacity .3s}
-.profile-card:hover .profile-card-shine{opacity:1}
-.profile-card-top{position:absolute;top:0;left:0;right:0;height:60px;background:linear-gradient(135deg,rgba(93,245,168,.1),rgba(167,139,250,.1))}
-.avatar-wrap{position:relative;width:88px;height:88px;margin:0 auto 1rem}
-.avatar-circle{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));border:3px solid var(--bg2);box-shadow:0 0 0 1.5px var(--border2);overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative;transition:box-shadow .3s}
-.profile-card:hover .avatar-circle{box-shadow:0 0 0 2px var(--green),0 0 20px rgba(93,245,168,.2)}
-.avatar-initials{font-family:var(--font-head);font-size:28px;color:#08080e;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
-.avatar-photo{width:100%;height:100%;object-fit:cover;object-position:center top;display:none;position:absolute;inset:0}
-.profile-name{font-weight:600;font-size:15px;margin-bottom:2px;position:relative}
-.profile-title{font-size:10.5px;color:var(--muted);margin-bottom:1rem;font-family:var(--font-mono);letter-spacing:.5px;position:relative}
-.profile-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:1.1rem;position:relative}
-.pstat{background:var(--bg3);border-radius:var(--r-sm);padding:10px 8px;border:1px solid var(--border)}
-.pstat-num{font-size:22px;font-weight:600;color:var(--green);font-family:var(--font-mono);line-height:1}
-.pstat-label{font-size:9.5px;color:var(--muted);margin-top:3px;letter-spacing:.3px}
-.avail-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--green);background:var(--green3);border:1px solid rgba(93,245,168,.2);padding:5px 14px;border-radius:20px;font-family:var(--font-mono);margin-bottom:1rem}
-.avail-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;flex-shrink:0}
+/* Sound bars */
+.sound-bars{display:flex;gap:3px;align-items:flex-end;height:18px;margin-top:8px;opacity:0;transition:opacity .3s}
+.sound-bars.active{opacity:1}
+.bar{width:4px;background:var(--accent);border-radius:2px}
+.bar.go{animation:bounce .5s ease-in-out infinite alternate}
+.bar:nth-child(1){animation-delay:0s;height:5px}.bar:nth-child(2){animation-delay:.1s;height:9px}
+.bar:nth-child(3){animation-delay:.2s;height:13px}.bar:nth-child(4){animation-delay:.1s;height:9px}
+.bar:nth-child(5){animation-delay:0s;height:5px}
+@keyframes bounce{to{transform:scaleY(2.2);background:var(--accent2)}}
 
-/* TALK TO MUHIB BUTTON on card */
-.card-talk-btn{
-  width:100%;
-  display:flex;align-items:center;justify-content:center;gap:8px;
-  padding:10px 16px;
-  background:rgba(93,245,168,0.07);
-  border:1px solid rgba(93,245,168,0.3);
-  border-radius:10px;
-  color:var(--green);
-  font-family:var(--font-mono);
-  font-size:11.5px;
-  font-weight:500;
-  letter-spacing:.5px;
-  cursor:pointer;
-  transition:all .2s;
-  position:relative;
-  overflow:hidden;
-}
-.card-talk-btn::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent,rgba(93,245,168,.06),transparent);
-  transform:translateX(-100%);
-  transition:transform .5s;
-}
-.card-talk-btn:hover::before{transform:translateX(100%)}
-.card-talk-btn:hover{
-  background:rgba(93,245,168,0.14);
-  border-color:rgba(93,245,168,.6);
-  transform:translateY(-1px);
-  box-shadow:0 6px 20px rgba(93,245,168,.15);
-}
-.card-talk-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 1.5s infinite;flex-shrink:0}
+.status-row{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);font-family:'Space Mono',monospace}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s;flex-shrink:0}
+.dot.listening{background:#ff6b6b;box-shadow:0 0 8px rgba(255,107,107,0.6);animation:dp .8s ease-in-out infinite}
+.dot.thinking{background:#ffd93d;box-shadow:0 0 8px rgba(255,217,61,0.5);animation:dp 1.2s ease-in-out infinite}
+.dot.speaking{background:var(--accent);box-shadow:0 0 8px rgba(79,195,247,0.6);animation:dp 1s ease-in-out infinite}
+@keyframes dp{0%,100%{opacity:1}50%{opacity:.35}}
 
-/* DIVIDER / SECTIONS */
-.divider{width:100%;height:1px;background:var(--border);position:relative;z-index:1}
-section{max-width:900px;margin:0 auto;padding:5rem 2.5rem;position:relative;z-index:1}
-.section-label{font-family:var(--font-mono);font-size:10.5px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:.75rem}
-.section-title{font-family:var(--font-head);font-size:clamp(30px,4vw,42px);margin-bottom:2.5rem;line-height:1.1}
-.student-banner{display:flex;align-items:center;gap:12px;background:var(--bg2);border:1px solid rgba(167,139,250,.2);border-radius:var(--r);padding:1rem 1.4rem;margin-bottom:2.5rem}
-.sb-icon{font-size:22px;flex-shrink:0}
-.sb-text{font-size:13px;color:var(--muted);line-height:1.5}
-.sb-text strong{color:var(--purple);font-weight:600}
-.exp-timeline{position:relative;padding-left:1px}
-.exp-timeline::before{content:'';position:absolute;left:0;top:8px;bottom:0;width:1px;background:linear-gradient(to bottom,var(--green),transparent)}
-.exp-item{padding-left:2.2rem;padding-bottom:2.75rem;position:relative}
-.exp-item:last-child{padding-bottom:0}
-.exp-dot{position:absolute;left:-5px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--green);box-shadow:0 0 14px rgba(93,245,168,.5)}
-.exp-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;gap:1rem;flex-wrap:wrap}
-.exp-role{font-size:17px;font-weight:600;color:var(--text)}
-.exp-badge{font-family:var(--font-mono);font-size:10px;color:var(--green);background:var(--green3);border:1px solid rgba(93,245,168,.2);padding:2px 9px;border-radius:4px;margin-left:8px;vertical-align:middle}
-.exp-period{font-family:var(--font-mono);font-size:10.5px;color:var(--muted);background:var(--bg2);padding:3px 10px;border-radius:4px;border:1px solid var(--border);white-space:nowrap}
-.exp-company{font-size:13.5px;color:var(--green);margin-bottom:.85rem;font-weight:500}
-.exp-list{list-style:none;margin-bottom:1rem}
-.exp-list li{font-size:13.5px;color:var(--muted);padding:4px 0;display:flex;align-items:flex-start;gap:9px;line-height:1.65}
-.exp-list li::before{content:'→';color:var(--green);font-size:11px;flex-shrink:0;margin-top:3px;font-family:var(--font-mono)}
-.tag-row{display:flex;flex-wrap:wrap;gap:6px}
-.tag{font-family:var(--font-mono);font-size:10.5px;padding:3px 10px;border-radius:4px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);transition:all .15s}
-.tag:hover{color:var(--text);border-color:var(--border2)}
-.skills-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
-.skill-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem 1.4rem;transition:border-color .2s,transform .2s}
-.skill-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.skill-icon{font-size:22px;margin-bottom:.7rem}
-.skill-name{font-size:13px;font-weight:600;color:var(--text);margin-bottom:.6rem}
-.skill-pills{display:flex;flex-wrap:wrap;gap:6px}
-.pill{font-size:11.5px;font-family:var(--font-mono);padding:3px 9px;border-radius:4px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);transition:all .15s}
-.pill:hover{color:var(--text);border-color:var(--border2)}
-.pill.hi{color:var(--green);border-color:rgba(93,245,168,.25);background:var(--green3)}
-.projects-grid{display:grid;gap:14px}
-.proj-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem;transition:border-color .2s,transform .2s;position:relative;overflow:hidden}
-.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--green),var(--purple));opacity:0;transition:opacity .2s}
-.proj-card:hover{border-color:var(--border2);transform:translateY(-2px)}
-.proj-card:hover::before{opacity:1}
-.proj-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.75rem;gap:1rem;flex-wrap:wrap}
-.proj-name{font-size:17px;font-weight:600;color:var(--text)}
-.proj-status{font-family:var(--font-mono);font-size:10.5px;padding:3px 10px;border-radius:4px;border:1px solid;white-space:nowrap}
-.s-ongoing{color:var(--gold);border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.06)}
-.s-done{color:var(--green);border-color:rgba(93,245,168,.3);background:var(--green3)}
-.s-progress{color:#fb923c;border-color:rgba(251,146,60,.3);background:rgba(251,146,60,.06)}
-.proj-desc{color:var(--muted);font-size:13.5px;line-height:1.75;margin-bottom:1.25rem}
-.proj-link{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-family:var(--font-mono);color:var(--green);border:1px solid rgba(93,245,168,.25);background:var(--green3);padding:5px 13px;border-radius:6px;transition:all .15s;margin-right:8px;margin-top:8px}
-.proj-link:hover{background:rgba(93,245,168,.15);opacity:1}
-.certs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.cert-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.3rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color .2s}
-.cert-card:hover{border-color:var(--border2)}
-.cert-badge{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--green3),var(--purple2));border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
-.cert-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
-.cert-issuer{font-size:12px;color:var(--muted);margin-bottom:3px}
-.cert-date{font-family:var(--font-mono);font-size:11px;color:var(--green)}
-.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
-.contact-items{display:grid;gap:11px}
-.contact-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1rem 1.25rem;display:flex;align-items:center;gap:12px;transition:border-color .2s}
-.contact-item:hover{border-color:var(--border2)}
-.ci-icon{width:40px;height:40px;border-radius:9px;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
-.ci-label{font-size:10.5px;color:var(--muted);margin-bottom:2px}
-.ci-value{font-size:13px;font-weight:500;color:var(--text)}
-.contact-form{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:1.75rem}
-.form-title{font-size:16px;font-weight:600;margin-bottom:1.25rem}
-.fg{margin-bottom:13px}
-.fg label{display:block;font-size:11.5px;color:var(--muted);margin-bottom:6px;font-weight:500;letter-spacing:.3px}
-.fg input,.fg textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;color:var(--text);font-family:var(--font-body);font-size:13.5px;outline:none;transition:border-color .2s}
-.fg input:focus,.fg textarea:focus{border-color:rgba(93,245,168,.35)}
-.fg textarea{min-height:100px;resize:vertical}
-.fg input::placeholder,.fg textarea::placeholder{color:var(--muted2)}
-.btn-submit{width:100%;background:var(--green);color:#08080e;border:none;border-radius:var(--r-sm);padding:12px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);transition:all .2s;margin-top:4px}
-.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(93,245,168,.3)}
-footer{border-top:1px solid var(--border);padding:2rem 2.5rem;text-align:center;color:var(--muted);font-size:12.5px;position:relative;z-index:1}
-footer span{color:var(--green)}
-#certs-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
-.fab{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);color:var(--muted);font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:998;transition:all .2s;box-shadow:0 4px 24px rgba(0,0,0,.5)}
-.fab:hover{border-color:var(--green);color:var(--green);transform:rotate(30deg)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-.fade-up{opacity:0;transform:translateY(18px);transition:opacity .55s,transform .55s}
-.fade-up.visible{opacity:1;transform:translateY(0)}
+.chat-log{width:100%;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;min-height:180px;max-height:260px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scroll-behavior:smooth}
+.chat-log::-webkit-scrollbar{width:4px}
+.chat-log::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+.msg{display:flex;flex-direction:column;gap:3px;max-width:88%}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.bot{align-self:flex-start;align-items:flex-start}
+.bubble{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55}
+.msg.user .bubble{background:rgba(79,195,247,0.18);border:1px solid rgba(79,195,247,0.3);color:var(--text);border-bottom-right-radius:3px}
+.msg.bot .bubble{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:var(--text);border-bottom-left-radius:3px}
+.msg-label{font-size:10px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:0 4px}
+.typing-dots{display:flex;gap:4px;align-items:center;padding:9px 13px}
+.typing-dots span{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:td 1.2s ease-in-out infinite}
+.typing-dots span:nth-child(2){animation-delay:.2s}.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes td{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.chat-placeholder{color:var(--muted);font-size:13px;text-align:center;margin:auto;font-style:italic;line-height:1.6}
 
-/* ══════════════════════════════════════
-   AI AVATAR MODAL
-══════════════════════════════════════ */
-.av-modal-overlay{
-  position:fixed;inset:0;z-index:5000;
-  background:rgba(6,6,12,0.92);
-  backdrop-filter:blur(20px);
-  display:none;align-items:center;justify-content:center;
-  padding:20px;
-  animation:avFadeIn .25s ease;
-}
-@keyframes avFadeIn{from{opacity:0}to{opacity:1}}
-.av-modal-overlay.open{display:flex}
-.av-modal-box{
-  position:relative;width:100%;max-width:480px;
-  background:linear-gradient(145deg,#0d1420,#0a1020);
-  border:1px solid rgba(93,245,168,0.18);
-  border-radius:24px;overflow:hidden;
-  max-height:94vh;overflow-y:auto;
-  box-shadow:0 32px 80px rgba(0,0,0,.7),0 0 0 1px rgba(93,245,168,.06),inset 0 1px 0 rgba(255,255,255,.05);
-  animation:avSlideUp .3s cubic-bezier(.16,1,.3,1);
-}
-@keyframes avSlideUp{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
-.av-modal-box::-webkit-scrollbar{width:4px}
-.av-modal-box::-webkit-scrollbar-thumb{background:rgba(93,245,168,.15);border-radius:2px}
-.av-modal-close{
-  position:absolute;top:14px;right:14px;z-index:10;
-  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
-  color:var(--muted);border-radius:8px;width:30px;height:30px;
-  font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;
-  transition:all .15s;
-}
-.av-modal-close:hover{color:var(--text);border-color:var(--border2);background:rgba(255,255,255,.1)}
-
-/* avatar page layout */
-.av-page{display:flex;flex-direction:column;align-items:center;gap:16px;padding:28px 20px 28px}
-
-/* header */
-.av-header{text-align:center}
-.av-header h2{font-family:var(--font-mono);font-size:18px;font-weight:700;letter-spacing:.04em;color:var(--text)}
-.av-header p{font-size:10.5px;color:var(--green);letter-spacing:.16em;text-transform:uppercase;margin-top:4px;opacity:.8}
-
-/* avatar ring + photo */
-.av-ring-wrap{position:relative;width:180px;height:180px;flex-shrink:0}
-.av-ring{
-  position:absolute;inset:-7px;border-radius:50%;
-  border:2px solid transparent;
-  background:linear-gradient(#0d1420,#0d1420) padding-box,
-    linear-gradient(135deg,var(--green),var(--purple),var(--green)) border-box;
-  transition:box-shadow .3s;
-}
-.av-ring.speaking{animation:av-ring-pulse 1s ease-in-out infinite}
-@keyframes av-ring-pulse{
-  0%,100%{box-shadow:0 0 0 3px rgba(93,245,168,.12),0 0 18px rgba(93,245,168,.2)}
-  50%{box-shadow:0 0 0 7px rgba(93,245,168,.06),0 0 32px rgba(93,245,168,.32)}
-}
-.av-img{
-  width:180px;height:180px;border-radius:50%;
-  object-fit:cover;object-position:center top;
-  display:block;position:relative;z-index:1;
-}
-/* eye + mouth overlays */
-.av-eye-overlay{position:absolute;top:46px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;display:flex;gap:20px}
-.av-eye{width:17px;height:6px;background:#0d1420;border-radius:50%;transform:scaleY(0);transform-origin:center;transition:transform .07s}
-.av-eye.closed{transform:scaleY(1)}
-.av-mouth-overlay{position:absolute;bottom:36px;left:50%;transform:translateX(-50%);z-index:10;pointer-events:none;opacity:0;transition:opacity .15s}
-.av-mouth-overlay.visible{opacity:1}
-
-/* sound bars */
-.av-sound-bars{display:flex;gap:3px;align-items:flex-end;height:16px;margin-top:6px;opacity:0;transition:opacity .3s}
-.av-sound-bars.active{opacity:1}
-.av-bar{width:4px;background:var(--green);border-radius:2px}
-.av-bar.go{animation:avBounce .5s ease-in-out infinite alternate}
-.av-bar:nth-child(1){animation-delay:0s;height:5px}
-.av-bar:nth-child(2){animation-delay:.1s;height:9px}
-.av-bar:nth-child(3){animation-delay:.2s;height:13px}
-.av-bar:nth-child(4){animation-delay:.1s;height:9px}
-.av-bar:nth-child(5){animation-delay:0s;height:5px}
-@keyframes avBounce{to{transform:scaleY(2.2);background:var(--purple)}}
-
-/* status row */
-.av-status-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);font-family:var(--font-mono)}
-.av-dot{width:7px;height:7px;border-radius:50%;background:var(--muted);transition:background .3s,box-shadow .3s;flex-shrink:0}
-.av-dot.listening{background:#f87171;box-shadow:0 0 8px rgba(248,113,113,.6);animation:avDotPulse .8s ease-in-out infinite}
-.av-dot.thinking{background:var(--gold);box-shadow:0 0 8px rgba(251,191,36,.5);animation:avDotPulse 1.2s ease-in-out infinite}
-.av-dot.speaking{background:var(--green);box-shadow:0 0 8px rgba(93,245,168,.6);animation:avDotPulse 1s ease-in-out infinite}
-@keyframes avDotPulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* chat log */
-.av-chat-log{
-  width:100%;background:rgba(255,255,255,.03);
-  border:1px solid rgba(93,245,168,.12);border-radius:14px;
-  padding:12px;min-height:140px;max-height:200px;
-  overflow-y:auto;display:flex;flex-direction:column;gap:9px;
-  scroll-behavior:smooth;
-}
-.av-chat-log::-webkit-scrollbar{width:3px}
-.av-chat-log::-webkit-scrollbar-thumb{background:rgba(93,245,168,.15);border-radius:2px}
-.av-msg{display:flex;flex-direction:column;gap:3px;max-width:90%}
-.av-msg.user{align-self:flex-end;align-items:flex-end}
-.av-msg.bot{align-self:flex-start;align-items:flex-start}
-.av-bubble{padding:8px 12px;border-radius:11px;font-size:12.5px;line-height:1.55}
-.av-msg.user .av-bubble{background:rgba(93,245,168,.14);border:1px solid rgba(93,245,168,.25);color:var(--text);border-bottom-right-radius:3px}
-.av-msg.bot .av-bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);color:var(--text);border-bottom-left-radius:3px}
-.av-msg-label{font-size:9.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;padding:0 4px}
-.av-typing-dots{display:flex;gap:4px;align-items:center;padding:8px 12px}
-.av-typing-dots span{width:5px;height:5px;border-radius:50%;background:var(--muted);animation:avTd 1.2s ease-in-out infinite}
-.av-typing-dots span:nth-child(2){animation-delay:.2s}
-.av-typing-dots span:nth-child(3){animation-delay:.4s}
-@keyframes avTd{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
-.av-placeholder{color:var(--muted);font-size:12.5px;text-align:center;margin:auto;font-style:italic;line-height:1.6}
-
-/* talk button */
-.av-talk-btn{
-  width:100%;padding:13px;
-  background:rgba(93,245,168,.08);
-  border:1.5px solid rgba(93,245,168,.4);border-radius:12px;
-  color:var(--green);font-family:var(--font-body);font-size:14px;font-weight:600;
-  cursor:pointer;transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
-}
-.av-talk-btn:hover{background:rgba(93,245,168,.16);border-color:var(--green);transform:translateY(-1px)}
-.av-talk-btn.recording{background:rgba(248,113,113,.12);border-color:#f87171;color:#f87171;animation:avBtnPulse 1.5s ease-in-out infinite}
-@keyframes avBtnPulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,.3)}50%{box-shadow:0 0 0 7px rgba(248,113,113,0)}}
-.av-talk-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
-
-/* text input row */
-.av-text-row{display:flex;gap:8px;width:100%}
-.av-text-input{
-  flex:1;padding:10px 13px;
-  background:rgba(255,255,255,.04);border:1px solid rgba(93,245,168,.15);
-  border-radius:10px;color:var(--text);
-  font-family:var(--font-body);font-size:12.5px;outline:none;transition:border-color .2s;
-}
-.av-text-input:focus{border-color:rgba(93,245,168,.4)}
-.av-text-input::placeholder{color:var(--muted2)}
-.av-send-btn{
-  padding:10px 14px;background:rgba(93,245,168,.1);
-  border:1px solid rgba(93,245,168,.3);border-radius:10px;
-  color:var(--green);font-size:14px;cursor:pointer;transition:all .2s;
-}
-.av-send-btn:hover{background:rgba(93,245,168,.2)}
-
-/* suggestion chips */
-.av-sugs{display:flex;flex-wrap:wrap;gap:6px;width:100%}
-.av-sug{
-  padding:5px 11px;border:1px solid rgba(93,245,168,.15);border-radius:20px;
-  background:transparent;color:var(--muted);
-  font-family:var(--font-body);font-size:11px;cursor:pointer;transition:all .18s;
-}
-.av-sug:hover{border-color:rgba(93,245,168,.4);color:var(--green);background:rgba(93,245,168,.06)}
-
-/* PASSWORD GATE */
-.pw-ov{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(16px);z-index:2100;display:none;align-items:center;justify-content:center;padding:1rem}
-.pw-ov.open{display:flex}
-.pw-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);width:100%;max-width:380px;padding:2.5rem 2rem;position:relative;text-align:center}
-.pw-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--green3),var(--purple2));border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 1.4rem}
-.pw-title{font-family:var(--font-head);font-size:22px;margin-bottom:.4rem}
-.pw-sub{font-size:12.5px;color:var(--muted);margin-bottom:1.75rem;font-family:var(--font-mono);letter-spacing:.3px}
-.pw-input-wrap{position:relative;margin-bottom:1rem}
-.pw-input{width:100%;background:var(--bg3);border:1px solid var(--border2);border-radius:10px;padding:13px 46px 13px 16px;color:var(--text);font-family:var(--font-mono);font-size:14px;outline:none;transition:border-color .25s,box-shadow .25s;letter-spacing:2px}
-.pw-input:focus{border-color:rgba(93,245,168,.45);box-shadow:0 0 0 3px rgba(93,245,168,.08)}
-.pw-input.shake{animation:shake .35s ease}
-.pw-toggle{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px;padding:4px;transition:color .2s}
-.pw-toggle:hover{color:var(--text)}
-.pw-btn{width:100%;background:var(--green);color:#08080e;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;cursor:pointer;font-family:var(--font-body);transition:all .2s;letter-spacing:.3px}
-.pw-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(93,245,168,.3)}
-.pw-error{font-size:12px;color:#f87171;font-family:var(--font-mono);margin-bottom:.9rem;min-height:18px;opacity:0;transition:opacity .2s}
-.pw-error.show{opacity:1}
-.pw-close{position:absolute;top:14px;right:14px;background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.pw-close:hover{color:var(--text);border-color:var(--border2)}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
-
-/* ADMIN */
-.admin-ov{position:fixed;inset:0;background:rgba(0,0,0,.75);backdrop-filter:blur(10px);z-index:2000;display:none;align-items:center;justify-content:center;padding:1rem}
-.admin-ov.open{display:flex}
-.admin-panel{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--r-lg);width:100%;max-width:560px;max-height:88vh;overflow-y:auto;padding:2rem;position:relative}
-.admin-panel::-webkit-scrollbar{width:4px}
-.admin-panel::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
-.adm-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.75rem}
-.adm-title{font-family:var(--font-mono);font-size:12px;color:var(--green);letter-spacing:1px}
-.adm-close{background:var(--bg3);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .15s}
-.adm-close:hover{color:var(--text);border-color:var(--border2)}
-.adm-sec{margin-bottom:1.75rem}
-.adm-sec-title{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.9rem;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--border)}
-.upload-zone{border:1.5px dashed var(--border2);border-radius:var(--r);padding:1.5rem;text-align:center;cursor:pointer;transition:all .2s;background:var(--bg3);position:relative}
-.upload-zone:hover{border-color:var(--green);background:var(--green3)}
-.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer}
-.upload-icon{font-size:26px;margin-bottom:7px}
-.upload-label{font-size:12.5px;color:var(--muted)}
-.upload-label strong{color:var(--green)}
-.upload-preview{margin-top:10px;display:none;align-items:center;gap:10px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:8px 12px}
-.upload-preview.show{display:flex}
-.preview-img{width:38px;height:38px;border-radius:50%;object-fit:cover}
-.preview-name{font-size:12.5px;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.preview-remove{background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px}
-.adm-input{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:var(--r-sm);padding:9px 12px;color:var(--text);font-family:var(--font-body);font-size:13px;outline:none;transition:border-color .2s;margin-bottom:8px}
-.adm-input:focus{border-color:rgba(93,245,168,.35)}
-.adm-input::placeholder{color:var(--muted2)}
-.adm-ta{min-height:75px;resize:vertical}
-.cols2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.btn-add{background:transparent;border:1px dashed var(--border2);color:var(--muted);border-radius:var(--r-sm);padding:8px 16px;font-size:12.5px;cursor:pointer;width:100%;transition:all .2s;font-family:var(--font-body);margin-top:4px}
-.btn-add:hover{border-color:var(--green);color:var(--green)}
-.btn-save-all{background:var(--green);color:#08080e;border:none;border-radius:var(--r-sm);padding:12px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font-body);width:100%;transition:all .2s}
-.btn-save-all:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(93,245,168,.25)}
-
-.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bg3);border:1px solid rgba(93,245,168,.3);color:var(--green);padding:10px 20px;border-radius:var(--r-sm);font-size:12.5px;font-family:var(--font-mono);z-index:9998;transition:transform .3s;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-@media(max-width:720px){
-.hero-inner{grid-template-columns:1fr}
-.profile-card-wrap{display:none}
-.contact-grid{grid-template-columns:1fr}
-.cols2{grid-template-columns:1fr}
-nav{padding:0 1.25rem}
-.nav-links li:not(:last-child):not(:nth-last-child(2)){display:none}
-section{padding:3.5rem 1.25rem}
-.hero{padding:5rem 1.25rem 3rem}
-}
+.talk-btn{width:100%;padding:15px;background:rgba(79,195,247,0.12);border:1.5px solid var(--accent);border-radius:12px;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;position:relative;overflow:hidden}
+.talk-btn:hover{background:rgba(79,195,247,0.2);transform:translateY(-1px)}
+.talk-btn.recording{background:rgba(255,107,107,0.15);border-color:#ff6b6b;color:#ff6b6b;animation:btn-pulse 1.5s ease-in-out infinite}
+@keyframes btn-pulse{0%,100%{box-shadow:0 0 0 0 rgba(255,107,107,0.3)}50%{box-shadow:0 0 0 8px rgba(255,107,107,0)}}
+.talk-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;animation:none}
+.text-row{display:flex;gap:8px;width:100%}
+.text-input{flex:1;padding:11px 14px;background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color .2s}
+.text-input:focus{border-color:var(--accent)}
+.text-input::placeholder{color:var(--muted)}
+.send-btn{padding:11px 14px;background:rgba(79,195,247,0.12);border:1px solid var(--accent);border-radius:10px;color:var(--accent);font-size:16px;cursor:pointer;transition:all .2s}
+.send-btn:hover{background:rgba(79,195,247,0.22)}
+.suggestions{display:flex;flex-wrap:wrap;gap:7px;width:100%}
+.sug{padding:6px 12px;border:1px solid var(--border);border-radius:20px;background:transparent;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .18s}
+.sug:hover{border-color:var(--accent);color:var(--accent);background:rgba(79,195,247,0.07)}
+.notice{font-size:11px;color:var(--muted);text-align:center;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:8px 12px;line-height:1.5;display:none}
 </style>
 </head>
 <body>
+<div class="bg-grid"></div>
+<div class="page">
+  <div class="header">
+    <h1>Muhib Ullah</h1>
+    <p>Data Analyst &amp; Automation Engineer</p>
+  </div>
 
-<nav>
-  <span class="nav-logo">Muhib Ajaz</span>
-  <ul class="nav-links">
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#contact" class="nav-cta">Hire me</a></li>
-  </ul>
-</nav>
-
-<div class="hero" id="home">
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="glow glow-3"></div>
-  <div class="hero-inner">
-    <div>
-      <div class="hero-eyebrow">Open to opportunities</div>
-      <h1>Data turns into<br><em>decisions</em> here.</h1>
-      <p class="hero-desc" id="hero-desc-text">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</p>
-      <div class="hero-chips">
-        <span class="chip g">Python</span><span class="chip g">SQL</span><span class="chip p">Power BI</span>
-        <span class="chip p">Computer Vision</span><span class="chip">Excel</span><span class="chip">Databricks</span>
-        <span class="chip pk">n8n</span><span class="chip">OpenAI API</span>
-      </div>
-      <div class="hero-btns">
-        <a href="#contact" class="btn btn-green">Get in touch</a>
-        <a href="#" class="btn btn-ghost" id="cv-btn">⬇ Download CV</a>
-        <a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
-        <a href="https://github.com/MuhibAjaz" target="_blank" class="btn btn-ghost">GitHub ↗</a>
-      </div>
+  <div style="display:flex;flex-direction:column;align-items:center;gap:10px">
+    <div class="avatar-wrap">
+      <div class="avatar-ring" id="avatarRing"></div>
+      <!-- Single canvas renders everything: photo + animated features -->
+      <canvas id="avatarCanvas" width="240" height="240"></canvas>
     </div>
-
-    <!-- PROFILE CARD -->
-    <div class="profile-card-wrap" id="card-wrap">
-      <div class="profile-card" id="profile-card">
-        <div class="profile-card-shine" id="card-shine"></div>
-        <div class="profile-card-top"></div>
-        <div class="avatar-wrap">
-          <div class="avatar-circle">
-            <div class="avatar-initials" id="avatar-initials">MA</div>
-            <img id="avatar-photo" class="avatar-photo" src="" alt="Muhib Ajaz">
-          </div>
-        </div>
-        <div class="profile-name">Muhib Ajaz</div>
-        <div class="profile-title">Data Analyst | Automation Engineer</div>
-        <div class="profile-stats">
-          <div class="pstat"><div class="pstat-num">8+</div><div class="pstat-label">Months exp</div></div>
-          <div class="pstat"><div class="pstat-num">3.4</div><div class="pstat-label">CGPA</div></div>
-          <div class="pstat"><div class="pstat-num">10+</div><div class="pstat-label">Projects</div></div>
-          <div class="pstat"><div class="pstat-num">3h</div><div class="pstat-label">Response time</div></div>
-        </div>
-        <div class="avail-badge"><span class="avail-dot"></span>Open to work</div>
-        <!-- TALK TO MUHIB BUTTON -->
-        <button class="card-talk-btn" onclick="openAvatarModal()">
-          <span class="card-talk-dot"></span>
-          Talk to Muhib
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="opacity:.7"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-        </button>
-      </div>
+    <div class="sound-bars" id="soundBars">
+      <div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div>
+    </div>
+    <div class="status-row">
+      <div class="dot" id="statusDot"></div>
+      <span id="statusText">Say hello to Muhib</span>
     </div>
   </div>
+
+  <div class="chat-log" id="chatLog">
+    <div class="chat-placeholder" id="placeholder">
+      Press <strong style="color:var(--accent)">Talk</strong> and ask me anything —<br>my experience, projects, skills, or hiring info.
+    </div>
+  </div>
+
+  <button class="talk-btn" id="talkBtn" onclick="toggleListen()">
+    <span style="font-size:20px">🎙</span>
+    <span id="talkLabel">Hold to Talk</span>
+  </button>
+
+  <div class="text-row">
+    <input class="text-input" id="textInput" placeholder="Or type your question here…" maxlength="300">
+    <button class="send-btn" onclick="sendText()">▶</button>
+  </div>
+
+  <div class="suggestions">
+    <button class="sug" onclick="askSuggestion(this.textContent)">Tell me about yourself</button>
+    <button class="sug" onclick="askSuggestion(this.textContent)">What's your tech stack?</button>
+    <button class="sug" onclick="askSuggestion(this.textContent)">Best project you built?</button>
+    <button class="sug" onclick="askSuggestion(this.textContent)">Are you open to hire?</button>
+    <button class="sug" onclick="askSuggestion(this.textContent)">What do you do at IP Global?</button>
+  </div>
+
+  <div class="notice" id="notice">⚠ Voice not supported. Use Chrome or Edge, or type below.</div>
 </div>
-
-<div class="divider"></div>
-
-<section id="experience">
-  <div class="section-label">Career</div>
-  <div class="section-title">Work experience</div>
-  <div class="student-banner fade-up">
-    <div class="sb-icon">🎓</div>
-    <div class="sb-text"><strong>Final Year Computer Science Student</strong> at National University of Modern Languages (NUML), Islamabad — graduating 2026 with a CGPA of 3.4. Currently balancing full-time industry work with academic commitments.</div>
-  </div>
-  <div class="exp-timeline">
-    <div class="exp-item fade-up">
-      <div class="exp-dot"></div>
-      <div class="exp-header">
-        <div class="exp-role">Data Analyst | Automation Engineer <span class="exp-badge">● Current</span></div>
-        <div class="exp-period">Sep 2025 – Present</div>
-      </div>
-      <div class="exp-company">IP Global · Islamabad, Pakistan</div>
-      <ul class="exp-list">
-        <li>Wrote optimized SQL queries for data extraction and ETL pipelines to support reporting and analytics.</li>
-        <li>Extracted large datasets from Outlook emails and processed them with Python for cleaning, transformation, and analysis.</li>
-        <li>Designed and implemented Power BI dashboards for sales, operations, and management.</li>
-        <li>Built n8n automation workflows integrated with Outlook to send personalized, large-scale sales outreach emails.</li>
-        <li>Developing VAPI-powered AI calling agents to autonomously schedule and manage client calls.</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Python</span>
-        <span class="tag">n8n</span><span class="tag">Vapi</span><span class="tag">Power Automate</span>
-      </div>
-    </div>
-    <div class="exp-item fade-up">
-      <div class="exp-dot"></div>
-      <div class="exp-header">
-        <div class="exp-role">Data Science Intern</div>
-        <div class="exp-period">Nov 2025 – Feb 2026</div>
-      </div>
-      <div class="exp-company">10Pearls · Islamabad, Pakistan (Remote)</div>
-      <ul class="exp-list">
-        <li>Built data pipelines to collect, clean & analyze environmental and weather datasets for forecasting.</li>
-        <li>Built and evaluated predictive models with focus on preprocessing & validation.</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">Python</span><span class="tag">Pandas</span><span class="tag">Power BI</span><span class="tag">Scikit-learn</span>
-      </div>
-    </div>
-    <div class="exp-item fade-up">
-      <div class="exp-dot"></div>
-      <div class="exp-header">
-        <div class="exp-role">Data Analyst Intern</div>
-        <div class="exp-period">Jul 2024 – Aug 2024</div>
-      </div>
-      <div class="exp-company">Sarmaya Financials · Islamabad, Pakistan</div>
-      <ul class="exp-list">
-        <li>Built Power BI dashboards to visualize live stock performance & AUM trends.</li>
-        <li>Cleaned and structured financial datasets using SQL & Excel.</li>
-      </ul>
-      <div class="tag-row">
-        <span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">Excel</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="skills">
-  <div class="section-label">Toolkit</div>
-  <div class="section-title">Technical skills</div>
-  <div class="skills-grid">
-    <div class="skill-card fade-up"><div class="skill-icon">📊</div><div class="skill-name">BI & Visualization</div><div class="skill-pills"><span class="pill hi">Power BI</span><span class="pill hi">DAX</span><span class="pill">Databricks</span><span class="pill">Power Query</span></div></div>
-    <div class="skill-card fade-up"><div class="skill-icon">🗄️</div><div class="skill-name">Databases</div><div class="skill-pills"><span class="pill hi">SQL</span><span class="pill hi">MySQL</span><span class="pill">ETL</span><span class="pill">Data Cleaning</span></div></div>
-    <div class="skill-card fade-up"><div class="skill-icon">🐍</div><div class="skill-name">Programming</div><div class="skill-pills"><span class="pill hi">Python</span><span class="pill">Pandas</span><span class="pill">Scikit-learn</span><span class="pill">NLP</span><span class="pill">C++</span></div></div>
-    <div class="skill-card fade-up"><div class="skill-icon">⚡</div><div class="skill-name">Automation</div><div class="skill-pills"><span class="pill hi">n8n</span><span class="pill hi">Power Automate</span><span class="pill">Vapi AI Agents</span><span class="pill">Outlook API</span></div></div>
-    <div class="skill-card fade-up"><div class="skill-icon">👁️</div><div class="skill-name">AI & Computer Vision</div><div class="skill-pills"><span class="pill">OpenCV</span><span class="pill">MediaPipe</span><span class="pill">NLP</span><span class="pill">Image Processing</span></div></div>
-    <div class="skill-card fade-up"><div class="skill-icon">📋</div><div class="skill-name">Spreadsheets</div><div class="skill-pills"><span class="pill hi">Excel Advanced</span><span class="pill">Google Sheets</span><span class="pill">Pivot Tables</span></div></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="projects">
-  <div class="section-label">Work</div>
-  <div class="section-title">Projects</div>
-  <div class="projects-grid" id="projects-container">
-    <div class="proj-card fade-up">
-      <div class="proj-header"><div class="proj-name">Meat Inspector Lens</div><span class="proj-status s-ongoing">Ongoing — FYP</span></div>
-      <p class="proj-desc">AI-powered mobile app that identifies meat type (beef, chicken, pork) and freshness using computer vision & image processing. Integrates IoT gas sensors for real-time shop monitoring.</p>
-      <div class="tag-row"><span class="tag">AI</span><span class="tag">IoT</span><span class="tag">Computer Vision</span><span class="tag">OpenCV</span></div>
-    </div>
-    <div class="proj-card fade-up">
-      <div class="proj-header"><div class="proj-name">Sales Outreach Automation</div><span class="proj-status s-done">Live</span></div>
-      <p class="proj-desc">Fully automated daily email outreach using n8n + Python + Outlook API + OpenAI API. Sends personalized emails at scale with zero manual input. Contributed to 3 deal closures within 3 months.</p>
-      <div class="tag-row"><span class="tag">n8n</span><span class="tag">Python</span><span class="tag">Outlook API</span><span class="tag">OpenAI API</span></div>
-    </div>
-    <div class="proj-card fade-up">
-      <div class="proj-header"><div class="proj-name">AI Calling Agents</div><span class="proj-status s-done">Ongoing</span></div>
-      <p class="proj-desc">Vapi-powered AI voice agents that autonomously schedule and manage client calls. Handles routing, scheduling logic, and follow-ups with zero manual coordination.</p>
-      <div class="tag-row"><span class="tag">Vapi</span><span class="tag">AI Agents</span><span class="tag">n8n</span><span class="tag">Voice Automation</span></div>
-    </div>
-    <div class="proj-card fade-up">
-      <div class="proj-header"><div class="proj-name">Business Intelligence Dashboards</div><span class="proj-status s-done">Live</span></div>
-      <p class="proj-desc">Power BI dashboards for IP Global and Sarmaya Financials covering KPIs, stock AUM trends, and operational reporting. Cut manual reporting by 70%.</p>
-      <div class="tag-row"><span class="tag">Power BI</span><span class="tag">SQL</span><span class="tag">DAX</span><span class="tag">Excel</span></div>
-    </div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section>
-  <div class="section-label">Credentials</div>
-  <div class="section-title">Education & certifications</div>
-  <div id="certs-container" class="certs-grid">
-    <div class="cert-card fade-up"><div class="cert-badge">🎓</div><div><div class="cert-name">BS Computer Science</div><div class="cert-issuer">NUML Islamabad · CGPA 3.4/4.0</div><div class="cert-date">2022 – 2026 · Final Year</div></div></div>
-    <div class="cert-card fade-up"><div class="cert-badge">✅</div><div><div class="cert-name">SQL Basic & Intermediate</div><div class="cert-issuer">HackerRank · Verified</div><div class="cert-date">November 2024</div></div></div>
-    <div class="cert-card fade-up"><div class="cert-badge">📚</div><div><div class="cert-name">Intermediate – Pre-Medical</div><div class="cert-issuer">Adamjee Govt. Science College, Karachi</div><div class="cert-date">2019 – 2021 · 94%</div></div></div>
-  </div>
-</section>
-
-<div class="divider"></div>
-
-<section id="contact">
-  <div class="section-label">Let's talk</div>
-  <div class="section-title">Get in touch</div>
-  <div class="contact-grid">
-    <div class="contact-items">
-      <div class="contact-item fade-up"><div class="ci-icon">✉️</div><div><div class="ci-label">Email</div><div class="ci-value"><a href="mailto:muhibajaz333@gmail.com" style="color:var(--green)">muhibajaz333@gmail.com</a></div></div></div>
-      <div class="contact-item fade-up"><div class="ci-icon">📞</div><div><div class="ci-label">Phone</div><div class="ci-value"><a href="tel:+923243482205" style="color:inherit">0324-3482205</a></div></div></div>
-      <div class="contact-item fade-up"><div class="ci-icon">💼</div><div><div class="ci-label">LinkedIn</div><div class="ci-value"><a href="https://www.linkedin.com/in/muhibajaz01/" target="_blank" style="color:var(--green)">Muhib Ajaz ↗</a></div></div></div>
-      <div class="contact-item fade-up"><div class="ci-icon">⌥</div><div><div class="ci-label">GitHub</div><div class="ci-value"><a href="https://github.com/MuhibAjaz" target="_blank" style="color:var(--green)">MuhibAjaz ↗</a></div></div></div>
-      <div class="contact-item fade-up"><div class="ci-icon">📍</div><div><div class="ci-label">Location</div><div class="ci-value">G-15, Islamabad, Pakistan</div></div></div>
-    </div>
-    <div class="contact-form fade-up">
-      <div class="form-title">Send a message</div>
-      <div class="fg"><label>Your name</label><input type="text" id="msg-name" placeholder="Your name"></div>
-      <div class="fg"><label>Email address</label><input type="email" id="msg-email" placeholder="your@email.com"></div>
-      <div class="fg"><label>Message</label><textarea id="msg-body" placeholder="Tell me about the opportunity..."></textarea></div>
-      <button class="btn-submit" onclick="sendMsg()">Send message →</button>
-    </div>
-  </div>
-</section>
-
-<footer><span>Muhib Ullah</span> · Data Analyst & Automation Engineer · Islamabad · <span>2026</span></footer>
-
-<button class="fab" onclick="openPwGate()" title="Edit portfolio">⚙</button>
-
-<!-- ══════════════════════════════════════
-     AI AVATAR MODAL
-══════════════════════════════════════ -->
-<div class="av-modal-overlay" id="avatarModal" onclick="handleModalBg(event)">
-  <div class="av-modal-box">
-    <button class="av-modal-close" onclick="closeAvatarModal()">✕</button>
-    <div class="av-page">
-
-      <div class="av-header">
-        <h2>Muhib Ullah</h2>
-        <p>Data Analyst &amp; Automation Engineer</p>
-      </div>
-
-      <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-        <div class="av-ring-wrap">
-          <div class="av-ring" id="avRing"></div>
-          <img class="av-img" id="avImg" src="" alt="Muhib" onerror="this.style.display='none';document.getElementById('avInitials').style.display='flex'">
-          <!-- fallback initials if no photo -->
-          <div id="avInitials" style="display:none;position:absolute;inset:0;z-index:1;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--purple));align-items:center;justify-content:center;font-family:var(--font-head);font-size:48px;color:#08080e">MA</div>
-          <div class="av-eye-overlay">
-            <div class="av-eye" id="avEyeL"></div>
-            <div class="av-eye" id="avEyeR"></div>
-          </div>
-          <div class="av-mouth-overlay" id="avMouthOverlay">
-            <svg width="34" height="14" viewBox="0 0 34 14">
-              <ellipse id="avMouth" cx="17" cy="7" rx="3" ry="1.5" fill="#150808" stroke="rgba(255,255,255,0.12)" stroke-width="0.5"/>
-            </svg>
-          </div>
-        </div>
-        <div class="av-sound-bars" id="avSoundBars">
-          <div class="av-bar" id="avb1"></div><div class="av-bar" id="avb2"></div>
-          <div class="av-bar" id="avb3"></div><div class="av-bar" id="avb4"></div>
-          <div class="av-bar" id="avb5"></div>
-        </div>
-        <div class="av-status-row">
-          <div class="av-dot" id="avDot"></div>
-          <span id="avStatus">Say hello to Muhib</span>
-        </div>
-      </div>
-
-      <div class="av-chat-log" id="avChat">
-        <div class="av-placeholder" id="avPlaceholder">
-          Press <strong style="color:var(--green)">Talk</strong> and ask me anything —<br>
-          my experience, projects, skills, or hiring info.
-        </div>
-      </div>
-
-      <button class="av-talk-btn" id="avTalkBtn" onclick="avToggleListen()">
-        <span style="font-size:18px">🎙</span>
-        <span id="avTalkLabel">Hold to Talk</span>
-      </button>
-
-      <div class="av-text-row">
-        <input class="av-text-input" id="avTextInput" placeholder="Or type your question here…" maxlength="300">
-        <button class="av-send-btn" onclick="avSendText()">▶</button>
-      </div>
-
-      <div class="av-sugs">
-        <button class="av-sug" onclick="avAsk(this.textContent)">Tell me about yourself</button>
-        <button class="av-sug" onclick="avAsk(this.textContent)">What's your tech stack?</button>
-        <button class="av-sug" onclick="avAsk(this.textContent)">Best project you built?</button>
-        <button class="av-sug" onclick="avAsk(this.textContent)">Are you open to hire?</button>
-        <button class="av-sug" onclick="avAsk(this.textContent)">What do you do at IP Global?</button>
-      </div>
-
-    </div>
-  </div>
-</div>
-
-<!-- PASSWORD GATE -->
-<div class="pw-ov" id="pw-ov">
-  <div class="pw-box">
-    <button class="pw-close" onclick="closePwGate()">✕</button>
-    <div class="pw-icon">🔐</div>
-    <div class="pw-title">Admin Access</div>
-    <div class="pw-sub">Enter password to edit portfolio</div>
-    <div class="pw-error" id="pw-error">Incorrect password. Try again.</div>
-    <div class="pw-input-wrap">
-      <input type="password" class="pw-input" id="pw-input" placeholder="••••••••" onkeydown="if(event.key==='Enter')checkPw()">
-      <button class="pw-toggle" id="pw-toggle" onclick="togglePwVis()" title="Show/hide">👁</button>
-    </div>
-    <button class="pw-btn" onclick="checkPw()">Unlock →</button>
-  </div>
-</div>
-
-<!-- ADMIN PANEL -->
-<div class="admin-ov" id="admin-ov">
-  <div class="admin-panel">
-    <div class="adm-head"><span class="adm-title">EDIT YOUR PORTFOLIO</span><button class="adm-close" onclick="closeAdmin()">✕</button></div>
-    <div class="adm-sec">
-      <div class="adm-sec-title">Profile Photo</div>
-      <div class="upload-zone"><input type="file" accept="image/*" onchange="handleAdminPhoto(this)"><div class="upload-icon">🖼️</div><div class="upload-label">Drop photo or <strong>click to browse</strong><br><span style="font-size:11px">Round JPG/PNG · Recommended 400×400</span></div></div>
-      <div class="upload-preview" id="photo-preview"><img class="preview-img" id="preview-img-el" src="" alt=""><span class="preview-name" id="preview-photo-name"></span><button class="preview-remove" onclick="removePhoto()">✕</button></div>
-    </div>
-    <div class="adm-sec">
-      <div class="adm-sec-title">CV / Resume (PDF)</div>
-      <div class="upload-zone"><input type="file" accept=".pdf" onchange="handleCV(this)"><div class="upload-icon">📄</div><div class="upload-label">Drop your CV PDF or <strong>click to browse</strong></div></div>
-      <div class="upload-preview" id="cv-preview"><span style="font-size:20px">📄</span><span class="preview-name" id="preview-cv-name"></span><button class="preview-remove" onclick="removeCV()">✕</button></div>
-    </div>
-    <div class="adm-sec">
-      <div class="adm-sec-title">Bio Text</div>
-      <textarea class="adm-input adm-ta" id="admin-bio">I'm Muhib Ullah — Data Analyst & Automation Engineer based in Islamabad. I transform messy data into clear decisions and replace repetitive workflows with systems that run themselves.</textarea>
-      <button class="btn-add" onclick="saveBio()">Update bio text</button>
-    </div>
-    <div class="adm-sec">
-      <div class="adm-sec-title">Add a Project</div>
-      <input class="adm-input" id="proj-name" placeholder="Project name">
-      <div class="cols2"><input class="adm-input" id="proj-tags" placeholder="Tags (comma separated)"><select class="adm-input" id="proj-status-sel"><option value="ongoing">Ongoing</option><option value="done">Shipped / Live</option><option value="progress">In Progress</option></select></div>
-      <textarea class="adm-input adm-ta" id="proj-desc-adm" placeholder="Project description..."></textarea>
-      <input class="adm-input" id="proj-link-adm" placeholder="GitHub or live link (optional)">
-      <button class="btn-add" onclick="addProject()">+ Add project</button>
-    </div>
-    <div class="adm-sec">
-      <div class="adm-sec-title">Add Certification</div>
-      <div class="cols2"><input class="adm-input" id="cert-name" placeholder="Certification name"><input class="adm-input" id="cert-issuer-inp" placeholder="Issuer"></div>
-      <input class="adm-input" id="cert-date-inp" placeholder="Date (e.g. March 2025)">
-      <button class="btn-add" onclick="addCert()">+ Add certification</button>
-    </div>
-    <button class="btn-save-all" onclick="saveAll()">💾 Save & close</button>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <script>
-// ── SCROLL ANIMATIONS ──
-const io = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+// ══════════════════════════════════════════
+//  FACE LANDMARK CONFIG
+//  Photo: 400x400px, face fills frame
+//  Coordinates measured from your actual photo
+// ══════════════════════════════════════════
 
-// ── 3D CARD TILT ──
-const card = document.getElementById('profile-card');
-const shine = document.getElementById('card-shine');
-const wrap = document.getElementById('card-wrap');
-if (wrap) {
-  wrap.addEventListener('mousemove', e => {
-    const r = card.getBoundingClientRect();
-    const x = e.clientX - r.left - r.width/2;
-    const y = e.clientY - r.top - r.height/2;
-    card.style.transform = `rotateX(${(y/r.height)*12}deg) rotateY(${-(x/r.width)*12}deg) scale(1.02)`;
-    shine.style.background = `radial-gradient(circle at ${((e.clientX-r.left)/r.width*100).toFixed(1)}% ${((e.clientY-r.top)/r.height*100).toFixed(1)}%, rgba(255,255,255,.07), transparent 60%)`;
-    shine.style.opacity = '1';
-  });
-  wrap.addEventListener('mouseleave', () => {
-    card.style.transform = 'rotateX(0) rotateY(0) scale(1)';
-    shine.style.opacity = '0';
-  });
+// These are PIXEL positions in your 400x400 source image
+// Scaled to 240x240 canvas (ratio = 0.6)
+const SCALE = 240 / 400;
+
+const FACE = {
+  // Mouth - actual lip positions from your photo
+  // Your face: mouth is roughly at y=275-310 in 400px image
+  // Lip corners at ~x=155 and x=245
+  mouthLeft:  { x: 155 * SCALE, y: 282 * SCALE },
+  mouthRight: { x: 248 * SCALE, y: 282 * SCALE },
+  upperLipTop:{ x: 200 * SCALE, y: 268 * SCALE }, // philtrum bottom
+  upperLipBot:{ x: 200 * SCALE, y: 281 * SCALE }, // upper lip bottom
+  lowerLipTop:{ x: 200 * SCALE, y: 287 * SCALE }, // lower lip top
+  lowerLipBot:{ x: 200 * SCALE, y: 302 * SCALE }, // chin side
+
+  // Eyes - your eyes at roughly y=155 in 400px image
+  leftEye:  { x: 153 * SCALE, y: 157 * SCALE, w: 42 * SCALE, h: 14 * SCALE },
+  rightEye: { x: 247 * SCALE, y: 157 * SCALE, w: 42 * SCALE, h: 14 * SCALE },
+};
+
+// ══════════════════════════════════════════
+//  CANVAS AVATAR RENDERER
+// ══════════════════════════════════════════
+const canvas = document.getElementById('avatarCanvas');
+const ctx = canvas.getContext('2d');
+const CW = 240, CH = 240;
+
+const photo = new Image();
+photo.src = 'data:image/jpeg;base64,PROFILE_B64_PLACEHOLDER';
+photo.onload = () => { photoLoaded = true; };
+let photoLoaded = false;
+
+// Animation state
+let mouthOpen = 0;      // 0 = closed, 1 = fully open
+let mouthTarget = 0;
+let blinkState = 0;     // 0 = open, 1 = closed
+let blinkProgress = 0;
+let isSpeaking = false;
+let mouthPhase = 0;
+
+// Mouth shape control points (relative to center)
+function getMouthPath(openAmt) {
+  const ml = FACE.mouthLeft;
+  const mr = FACE.mouthRight;
+  const cx = (ml.x + mr.x) / 2;
+  const cy = (ml.y + mr.y) / 2;
+  const halfW = (mr.x - ml.x) / 2;
+
+  // Upper lip arc
+  const upperY = cy - 2 - openAmt * 6;
+  // Lower lip arc  
+  const lowerY = cy + 2 + openAmt * 10;
+  // Lip corner dip when open
+  const cornerDip = openAmt * 3;
+
+  return { ml, mr, cx, cy, halfW, upperY, lowerY, cornerDip, openAmt };
 }
 
-// ── AVATAR PHOTO SYNC ──
-// Whenever the profile card avatar is set, also update the modal avatar
-function setAvatar(url) {
-  const photo = document.getElementById('avatar-photo');
-  const initials = document.getElementById('avatar-initials');
-  const avImg = document.getElementById('avImg');
-  const avInitials = document.getElementById('avInitials');
-  if (url) {
-    photo.src = url; photo.style.display = 'block'; initials.style.display = 'none';
-    avImg.src = url; avImg.style.display = 'block'; avInitials.style.display = 'none';
-  } else {
-    photo.style.display = 'none'; initials.style.display = 'flex';
-    avImg.style.display = 'none'; avInitials.style.display = 'flex';
+function drawMouth(m) {
+  const { ml, mr, cx, upperY, lowerY, halfW, cornerDip, openAmt } = m;
+
+  ctx.save();
+
+  // --- Draw mouth opening (dark interior) ---
+  if (openAmt > 0.05) {
+    ctx.beginPath();
+    // Upper lip inner edge
+    ctx.moveTo(ml.x + 3, ml.y + cornerDip * 0.5);
+    ctx.bezierCurveTo(
+      cx - halfW * 0.4, upperY + 2,
+      cx + halfW * 0.4, upperY + 2,
+      mr.x - 3, mr.y + cornerDip * 0.5
+    );
+    // Right to lower
+    ctx.bezierCurveTo(
+      mr.x - 2, lowerY - 2,
+      cx + halfW * 0.4, lowerY,
+      cx, lowerY + 1
+    );
+    ctx.bezierCurveTo(
+      cx - halfW * 0.4, lowerY,
+      ml.x + 2, lowerY - 2,
+      ml.x + 3, ml.y + cornerDip * 0.5
+    );
+    ctx.closePath();
+
+    // Mouth interior gradient (dark red/pink)
+    const mGrad = ctx.createLinearGradient(cx, upperY, cx, lowerY);
+    mGrad.addColorStop(0, `rgba(60,10,10,${0.6 + openAmt * 0.3})`);
+    mGrad.addColorStop(0.4, `rgba(100,20,20,${0.7 + openAmt * 0.2})`);
+    mGrad.addColorStop(1, `rgba(40,8,8,${0.8})`);
+    ctx.fillStyle = mGrad;
+    ctx.fill();
+
+    // Teeth hint when mouth open enough
+    if (openAmt > 0.25) {
+      const teethOpacity = Math.min(1, (openAmt - 0.25) * 2.5);
+      const teethY = upperY + 3;
+      const teethH = (lowerY - upperY) * 0.35;
+      ctx.beginPath();
+      ctx.rect(cx - halfW * 0.55, teethY, halfW * 1.1, teethH);
+      ctx.fillStyle = `rgba(240, 235, 225, ${teethOpacity * 0.85})`;
+      ctx.fill();
+      // Tooth line dividers
+      ctx.strokeStyle = `rgba(180,170,160,${teethOpacity * 0.3})`;
+      ctx.lineWidth = 0.5;
+      for (let i = -1; i <= 1; i++) {
+        ctx.beginPath();
+        ctx.moveTo(cx + i * halfW * 0.28, teethY);
+        ctx.lineTo(cx + i * halfW * 0.28, teethY + teethH);
+        ctx.stroke();
+      }
+    }
   }
+
+  // --- Upper lip ---
+  ctx.beginPath();
+  ctx.moveTo(ml.x, ml.y);
+  // Cupid's bow
+  ctx.bezierCurveTo(
+    ml.x + halfW * 0.3, upperY + 2,
+    cx - halfW * 0.2, upperY - 2,
+    cx, upperY - 1        // cupid dip center
+  );
+  ctx.bezierCurveTo(
+    cx + halfW * 0.2, upperY - 2,
+    mr.x - halfW * 0.3, upperY + 2,
+    mr.x, mr.y
+  );
+  // Lower edge of upper lip
+  ctx.bezierCurveTo(
+    mr.x - halfW * 0.2, ml.y + cornerDip + 1,
+    cx + halfW * 0.3, ml.y + openAmt * 2,
+    cx, ml.y + openAmt * 2 + 1
+  );
+  ctx.bezierCurveTo(
+    cx - halfW * 0.3, ml.y + openAmt * 2,
+    ml.x + halfW * 0.2, ml.y + cornerDip + 1,
+    ml.x, ml.y
+  );
+  ctx.closePath();
+
+  const ulGrad = ctx.createLinearGradient(cx, upperY - 3, cx, ml.y + 4);
+  ulGrad.addColorStop(0, 'rgba(160,85,75,0.85)');
+  ulGrad.addColorStop(0.5, 'rgba(140,70,65,0.9)');
+  ulGrad.addColorStop(1, 'rgba(120,55,50,0.95)');
+  ctx.fillStyle = ulGrad;
+  ctx.fill();
+
+  // Upper lip highlight
+  ctx.beginPath();
+  ctx.ellipse(cx, upperY + 1, halfW * 0.25, 1.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(220,160,150,0.3)';
+  ctx.fill();
+
+  // --- Lower lip ---
+  ctx.beginPath();
+  ctx.moveTo(ml.x, ml.y + cornerDip);
+  ctx.bezierCurveTo(
+    ml.x + halfW * 0.2, lowerY - 1,
+    cx - halfW * 0.4, lowerY + 1,
+    cx, lowerY + 1
+  );
+  ctx.bezierCurveTo(
+    cx + halfW * 0.4, lowerY + 1,
+    mr.x - halfW * 0.2, lowerY - 1,
+    mr.x, mr.y + cornerDip
+  );
+  // Back to corners (upper edge of lower lip)
+  ctx.bezierCurveTo(
+    mr.x - halfW * 0.15, ml.y + cornerDip + 2,
+    cx + halfW * 0.3, ml.y + openAmt * 2,
+    cx, ml.y + openAmt * 2
+  );
+  ctx.bezierCurveTo(
+    cx - halfW * 0.3, ml.y + openAmt * 2,
+    ml.x + halfW * 0.15, ml.y + cornerDip + 2,
+    ml.x, ml.y + cornerDip
+  );
+  ctx.closePath();
+
+  const llGrad = ctx.createLinearGradient(cx, ml.y + cornerDip, cx, lowerY + 2);
+  llGrad.addColorStop(0, 'rgba(150,75,68,0.9)');
+  llGrad.addColorStop(0.5, 'rgba(165,88,80,0.92)');
+  llGrad.addColorStop(1, 'rgba(120,58,52,0.88)');
+  ctx.fillStyle = llGrad;
+  ctx.fill();
+
+  // Lower lip highlight
+  ctx.beginPath();
+  ctx.ellipse(cx, lowerY - 2, halfW * 0.4, 2.5, 0, 0, Math.PI * 2);
+  ctx.fillStyle = 'rgba(220,155,145,0.35)';
+  ctx.fill();
+
+  // Mouth corner shadows
+  [ml, mr].forEach((corner, i) => {
+    const grd = ctx.createRadialGradient(corner.x, corner.y + cornerDip * 0.5, 0, corner.x, corner.y + cornerDip * 0.5, 6);
+    grd.addColorStop(0, 'rgba(60,20,20,0.5)');
+    grd.addColorStop(1, 'transparent');
+    ctx.beginPath();
+    ctx.arc(corner.x, corner.y + cornerDip * 0.5, 6, 0, Math.PI * 2);
+    ctx.fillStyle = grd;
+    ctx.fill();
+  });
+
+  ctx.restore();
 }
 
-// ── AVATAR MODAL ──
-let avInitialized = false;
-function openAvatarModal() {
-  document.getElementById('avatarModal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  if (!avInitialized) { avInit(); avInitialized = true; }
-}
-function closeAvatarModal() {
-  document.getElementById('avatarModal').classList.remove('open');
-  document.body.style.overflow = '';
-  speechSynthesis.cancel();
-  avStopSpeaking();
-  if (avRecognition) { try { avRecognition.stop(); } catch(e){} }
-}
-function handleModalBg(e) {
-  if (e.target === document.getElementById('avatarModal')) closeAvatarModal();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAvatarModal(); });
+function drawEyeBlink(eye, progress) {
+  // progress 0=open, 1=fully closed
+  if (progress < 0.01) return;
 
-// ── AI AVATAR ENGINE ──
-const AV_SYSTEM = `You are Muhib Ullah, a Data Analyst and Automation Engineer. Respond in first person as Muhib. Keep answers conversational, confident, and concise (2-4 sentences max unless asked for detail).
+  const { x, y, w, h } = eye;
+  const closeH = h * progress;
+
+  ctx.save();
+  // Draw eyelid covering the eye
+  ctx.beginPath();
+  ctx.ellipse(x, y, w / 2 + 2, h / 2 + 2, 0, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Upper lid comes down
+  const lidBot = y - h / 2 + closeH * h;
+  ctx.beginPath();
+  ctx.moveTo(x - w / 2 - 2, y - h / 2 - 2);
+  ctx.lineTo(x + w / 2 + 2, y - h / 2 - 2);
+  ctx.lineTo(x + w / 2 + 2, lidBot);
+  ctx.bezierCurveTo(
+    x + w / 2 + 2, lidBot,
+    x, lidBot + 2 * progress,
+    x - w / 2 - 2, lidBot
+  );
+  ctx.closePath();
+
+  // Skin-tone eyelid matching photo background
+  ctx.fillStyle = 'rgba(185, 148, 120, 0.96)';
+  ctx.fill();
+
+  // Eyelid edge shadow
+  ctx.beginPath();
+  ctx.moveTo(x - w / 2 - 2, lidBot);
+  ctx.bezierCurveTo(x - w / 4, lidBot + 2, x + w / 4, lidBot + 2, x + w / 2 + 2, lidBot);
+  ctx.strokeStyle = 'rgba(80,40,20,0.5)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  ctx.restore();
+}
+
+function render() {
+  ctx.clearRect(0, 0, CW, CH);
+
+  // Clip to circle
+  ctx.save();
+  ctx.beginPath();
+  ctx.arc(CW / 2, CH / 2, CW / 2, 0, Math.PI * 2);
+  ctx.clip();
+
+  // Draw photo
+  if (photoLoaded) {
+    ctx.drawImage(photo, 0, 0, CW, CH);
+  } else {
+    ctx.fillStyle = '#0d1b2a';
+    ctx.fillRect(0, 0, CW, CH);
+  }
+
+  // Draw animated mouth OVER the photo
+  const mouthData = getMouthPath(mouthOpen);
+  drawMouth(mouthData);
+
+  // Draw eye blinks OVER the photo
+  if (blinkProgress > 0) {
+    drawEyeBlink(FACE.leftEye, blinkProgress);
+    drawEyeBlink(FACE.rightEye, blinkProgress);
+  }
+
+  ctx.restore();
+
+  // Smooth mouth animation
+  mouthOpen += (mouthTarget - mouthOpen) * 0.18;
+
+  requestAnimationFrame(render);
+}
+render();
+
+// Mouth animation driven by speech
+let mouthAnimTimer = null;
+function startMouthAnim() {
+  const syllablePatterns = [0.7, 0.3, 0.9, 0.2, 0.8, 0.4, 1.0, 0.15, 0.75, 0.5, 0.85, 0.25];
+  let idx = 0;
+  function nextShape() {
+    if (!isSpeaking) { mouthTarget = 0; return; }
+    mouthTarget = syllablePatterns[idx % syllablePatterns.length];
+    idx++;
+    const delay = 80 + Math.random() * 120;
+    mouthAnimTimer = setTimeout(nextShape, delay);
+  }
+  nextShape();
+}
+function stopMouthAnim() {
+  clearTimeout(mouthAnimTimer);
+  mouthTarget = 0;
+}
+
+// Blink animation
+let blinkTimer;
+function scheduleBlink() {
+  blinkTimer = setTimeout(() => {
+    // Close
+    const closeSpeed = 60;
+    const openDelay = 100;
+    let t = 0;
+    function closeStep() {
+      t += 16;
+      blinkProgress = Math.min(1, t / closeSpeed);
+      if (blinkProgress < 1) requestAnimationFrame(closeStep);
+      else setTimeout(openStep, openDelay);
+    }
+    function openStep() {
+      t = 0;
+      function step() {
+        t += 16;
+        blinkProgress = Math.max(0, 1 - t / closeSpeed);
+        if (blinkProgress > 0) requestAnimationFrame(step);
+        else { blinkProgress = 0; scheduleBlink(); }
+      }
+      step();
+    }
+    closeStep();
+  }, 2500 + Math.random() * 3000);
+}
+scheduleBlink();
+
+// ══════════════════════════════════════════
+//  AI + SPEECH SYSTEM
+// ══════════════════════════════════════════
+const SYSTEM_PROMPT = `You are Muhib Ullah, a Data Analyst and Automation Engineer. Respond in first person as Muhib. Keep answers conversational, confident, and concise (2-4 sentences max unless asked for detail).
 
 PERSONAL: Final year CS student at NUML Islamabad, graduating 2026, CGPA 3.4. Based in G-15, Islamabad.
 CURRENT JOB: Data Analyst & Automation Engineer at IP Global (Sep 2025–present). SQL queries, ETL pipelines, n8n automation, Power BI dashboards, VAPI AI calling agents, n8n+Outlook+OpenAI email outreach, website chatbots.
-PAST: Data Science Intern at 10Pearls (Nov 2025–Feb 2026). Data Analyst Intern at Sarmaya Financials (Jul–Aug 2024) — Power BI for live stock and AUM data.
+PAST: Data Science Intern at 10Pearls (Nov 2025–Feb 2026) — environmental data pipelines, EDA, predictive models. Data Analyst Intern at Sarmaya Financials (Jul–Aug 2024) — Power BI dashboards for live stock and AUM data.
 SKILLS: SQL, Python (Pandas, Scikit-learn, OpenCV, MediaPipe), Power BI (DAX, Power Query), n8n, Vapi, Power Automate, Outlook API, Excel, Databricks, NLP, Web Scraping, C++.
-PROJECTS: 1) Sales Outreach Automation (Live) — n8n+Python+Outlook+OpenAI, helped close 3 deals in 3 months. 2) AI Calling Agents (Ongoing) — Vapi voice agents. 3) BI Dashboards (Live) — cut manual reporting 70%. 4) Meat Inspector Lens (FYP) — AI app detecting meat type/freshness.
-CONTACT: muhibajaz333@gmail.com | LinkedIn: muhibajaz01 | GitHub: MuhibAjaz | ~3h response | Open to work.
-Rules: Never break character. Keep it human and warm.`;
+PROJECTS: 1) Sales Outreach Automation (Live) — n8n+Python+Outlook API+OpenAI, helped close 3 deals in 3 months. 2) AI Calling Agents (Ongoing) — Vapi voice agents. 3) LinkedIn Outreach Automation (In Progress). 4) BI Dashboards (Live) — cut manual reporting 70%. 5) Meat Inspector Lens (FYP) — AI app detecting meat type/freshness using computer vision+IoT.
+CONTACT: muhibajaz333@gmail.com | LinkedIn: muhibajaz01 | GitHub: MuhibAjaz | ~3 hours response | Open to work.
+PERSONALITY: Confident, passionate about automation. Direct, practical. Loves n8n. Proud of real results.
+Rules: Never break character. Keep it human and warm. Short answers unless asked for detail.`;
 
-let avHistory = [];
-let avIsSpeaking = false, avIsListening = false, avIsThinking = false;
-let avBlinkTimer = null, avMouthTimer = null, avRecognition = null;
+let conversationHistory = [];
+let isListening = false, isTalking = false, isThinking = false;
+let recognition = null;
 
-const avEl = id => document.getElementById(id);
+const ring = document.getElementById('avatarRing');
+const statusDot = document.getElementById('statusDot');
+const statusText = document.getElementById('statusText');
+const chatLog = document.getElementById('chatLog');
+const talkBtn = document.getElementById('talkBtn');
+const talkLabel = document.getElementById('talkLabel');
+const soundBars = document.getElementById('soundBars');
+const placeholder = document.getElementById('placeholder');
 
-function avSetStatus(text, mode) {
-  avEl('avStatus').textContent = text;
-  avEl('avDot').className = 'av-dot' + (mode ? ' '+mode : '');
-  avEl('avRing').classList.toggle('speaking', mode === 'speaking');
+function setStatus(text, mode) {
+  statusText.textContent = text;
+  statusDot.className = 'dot' + (mode ? ' ' + mode : '');
+  ring.classList.toggle('speaking', mode === 'speaking');
 }
 
-function avStartBlink() {
-  function blink() {
-    avEl('avEyeL').classList.add('closed'); avEl('avEyeR').classList.add('closed');
-    setTimeout(() => { avEl('avEyeL').classList.remove('closed'); avEl('avEyeR').classList.remove('closed'); }, 100);
-    avBlinkTimer = setTimeout(blink, 2500 + Math.random()*3000);
-  }
-  avBlinkTimer = setTimeout(blink, 1500 + Math.random()*2000);
+function startSpeakingUI() {
+  isSpeaking = true; isTalking = true;
+  soundBars.classList.add('active');
+  document.querySelectorAll('.bar').forEach(b => b.classList.add('go'));
+  setStatus('Speaking…', 'speaking');
+  startMouthAnim();
+}
+function stopSpeakingUI() {
+  isSpeaking = false; isTalking = false;
+  soundBars.classList.remove('active');
+  document.querySelectorAll('.bar').forEach(b => b.classList.remove('go'));
+  stopMouthAnim();
+  setStatus('Say hello to Muhib', '');
+  talkBtn.disabled = false;
 }
 
-function avAnimateMouth() {
-  const shapes = [{rx:3,ry:1.5},{rx:9,ry:5},{rx:13,ry:8},{rx:7,ry:4},{rx:11,ry:7},{rx:5,ry:3},{rx:10,ry:6},{rx:4,ry:2}];
-  let idx = 0;
-  function step() {
-    if (!avIsSpeaking) { avEl('avMouth').setAttribute('rx',3); avEl('avMouth').setAttribute('ry',1.5); return; }
-    const s = shapes[idx % shapes.length];
-    avEl('avMouth').setAttribute('rx', s.rx); avEl('avMouth').setAttribute('ry', s.ry);
-    idx++;
-    avMouthTimer = setTimeout(step, 75 + Math.random()*95);
-  }
-  step();
-}
-
-function avStartSpeaking() {
-  avIsSpeaking = true;
-  avEl('avSoundBars').classList.add('active');
-  avEl('avMouthOverlay').classList.add('visible');
-  document.querySelectorAll('.av-bar').forEach(b => b.classList.add('go'));
-  avSetStatus('Speaking…', 'speaking');
-  avStartBlink();
-  avAnimateMouth();
-}
-
-function avStopSpeaking() {
-  avIsSpeaking = false;
-  avEl('avSoundBars').classList.remove('active');
-  avEl('avMouthOverlay').classList.remove('visible');
-  document.querySelectorAll('.av-bar').forEach(b => b.classList.remove('go'));
-  avEl('avMouth').setAttribute('rx', 3); avEl('avMouth').setAttribute('ry', 1.5);
-  clearTimeout(avMouthTimer); clearTimeout(avBlinkTimer);
-  avEl('avEyeL').classList.remove('closed'); avEl('avEyeR').classList.remove('closed');
-  avSetStatus('Say hello to Muhib', '');
-  avEl('avTalkBtn').disabled = false;
-}
-
-function avAddMsg(text, role) {
-  const p = avEl('avPlaceholder'); if (p) p.remove();
-  const msg = document.createElement('div'); msg.className = `av-msg ${role}`;
-  const label = document.createElement('div'); label.className = 'av-msg-label'; label.textContent = role === 'user' ? 'You' : 'Muhib';
-  const bubble = document.createElement('div'); bubble.className = 'av-bubble'; bubble.textContent = text;
+function addMessage(text, role) {
+  if (placeholder) placeholder.remove();
+  const msg = document.createElement('div');
+  msg.className = `msg ${role}`;
+  const label = document.createElement('div');
+  label.className = 'msg-label';
+  label.textContent = role === 'user' ? 'You' : 'Muhib';
+  const bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  bubble.textContent = text;
   msg.appendChild(label); msg.appendChild(bubble);
-  avEl('avChat').appendChild(msg);
-  avEl('avChat').scrollTop = avEl('avChat').scrollHeight;
+  chatLog.appendChild(msg);
+  chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-function avShowTyping() {
-  const p = avEl('avPlaceholder'); if (p) p.remove();
-  const msg = document.createElement('div'); msg.className = 'av-msg bot'; msg.id = 'avTyping';
-  const label = document.createElement('div'); label.className = 'av-msg-label'; label.textContent = 'Muhib';
-  const dots = document.createElement('div'); dots.className = 'av-typing-dots av-bubble';
+function showTyping() {
+  if (placeholder) placeholder.remove();
+  const msg = document.createElement('div');
+  msg.className = 'msg bot'; msg.id = 'typingMsg';
+  const label = document.createElement('div');
+  label.className = 'msg-label'; label.textContent = 'Muhib';
+  const dots = document.createElement('div');
+  dots.className = 'typing-dots bubble';
   dots.innerHTML = '<span></span><span></span><span></span>';
   msg.appendChild(label); msg.appendChild(dots);
-  avEl('avChat').appendChild(msg);
-  avEl('avChat').scrollTop = avEl('avChat').scrollHeight;
+  chatLog.appendChild(msg);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+function removeTyping() {
+  const t = document.getElementById('typingMsg');
+  if (t) t.remove();
 }
 
-function avRemoveTyping() { const t = avEl('avTyping'); if (t) t.remove(); }
-
-async function avProcess(question) {
-  if (avIsThinking || avIsSpeaking) return;
-  avAddMsg(question, 'user');
-  avHistory.push({ role:'user', content:question });
-  avIsThinking = true;
-  avEl('avTalkBtn').disabled = true;
-  avSetStatus('Thinking…', 'thinking');
-  avShowTyping();
+async function processQuestion(question) {
+  if (isThinking || isTalking) return;
+  addMessage(question, 'user');
+  conversationHistory.push({ role: 'user', content: question });
+  isThinking = true;
+  talkBtn.disabled = true;
+  setStatus('Thinking…', 'thinking');
+  showTyping();
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({ model:'claude-sonnet-4-20250514', max_tokens:1000, system:AV_SYSTEM, messages:avHistory })
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: SYSTEM_PROMPT,
+        messages: conversationHistory
+      })
     });
     const data = await res.json();
-    const reply = data.content?.[0]?.text || "Sorry, couldn't respond. Please try again.";
-    avHistory.push({ role:'assistant', content:reply });
-    avRemoveTyping();
-    avAddMsg(reply, 'bot');
-    avIsThinking = false;
-    avSpeak(reply);
-  } catch(err) {
-    avRemoveTyping();
-    avAddMsg("Sorry, I'm having trouble connecting. Please try again.", 'bot');
-    avIsThinking = false;
-    avEl('avTalkBtn').disabled = false;
-    avSetStatus('Say hello to Muhib', '');
+    const reply = data.content?.[0]?.text || "Sorry, connection issue. Please try again.";
+    conversationHistory.push({ role: 'assistant', content: reply });
+    removeTyping();
+    addMessage(reply, 'bot');
+    isThinking = false;
+    speakText(reply);
+  } catch (err) {
+    removeTyping();
+    addMessage("Sorry, I'm having trouble connecting right now.", 'bot');
+    isThinking = false;
+    talkBtn.disabled = false;
+    setStatus('Say hello to Muhib', '');
   }
 }
 
-function avSpeak(text) {
+function speakText(text) {
   if (!('speechSynthesis' in window)) return;
   speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.rate = 0.95; u.pitch = 0.92;
   const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('en'));
-  const pref = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Daniel') || v.name.includes('Google US English') || v.name.includes('Microsoft David'));
+  const pref = voices.find(v =>
+    v.name.includes('Google UK English Male') || v.name.includes('Daniel') ||
+    v.name.includes('Google US English') || v.name.includes('Microsoft Guy') || v.name.includes('Microsoft David')
+  );
   if (pref) u.voice = pref;
-  u.onstart = avStartSpeaking;
-  u.onend = avStopSpeaking;
-  u.onerror = avStopSpeaking;
+  u.onstart = startSpeakingUI;
+  u.onend = stopSpeakingUI;
+  u.onerror = stopSpeakingUI;
   speechSynthesis.speak(u);
 }
 
-const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-
-function avToggleListen() {
-  if (avIsSpeaking) { speechSynthesis.cancel(); avStopSpeaking(); return; }
-  if (avIsThinking) return;
-  if (avIsListening) { avStopListening(); return; }
-  avStartListening();
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+if (!SpeechRecognition) {
+  document.getElementById('notice').style.display = 'block';
+  talkLabel.textContent = 'Voice not supported — use text';
+  talkBtn.disabled = true;
 }
 
-function avStartListening() {
-  if (!SpeechRec) { showToast('Voice not supported — use text input'); return; }
-  avRecognition = new SpeechRec();
-  avRecognition.lang = 'en-US';
-  avRecognition.interimResults = true;
-  avRecognition.onstart = () => {
-    avIsListening = true;
-    avEl('avTalkBtn').classList.add('recording');
-    avEl('avTalkLabel').textContent = 'Listening… (click to stop)';
-    avSetStatus('Listening…', 'listening');
+function toggleListen() {
+  if (isTalking) { speechSynthesis.cancel(); stopSpeakingUI(); return; }
+  if (isThinking) return;
+  if (isListening) { stopListening(); return; }
+  startListening();
+}
+
+function startListening() {
+  if (!SpeechRecognition) return;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'en-US';
+  recognition.interimResults = true;
+  recognition.onstart = () => {
+    isListening = true;
+    talkBtn.classList.add('recording');
+    talkLabel.textContent = 'Listening… (click to stop)';
+    setStatus('Listening…', 'listening');
   };
-  avRecognition.onresult = e => {
+  recognition.onresult = (e) => {
     const t = Array.from(e.results).map(r => r[0].transcript).join('');
-    if (e.results[e.results.length-1].isFinal) { avStopListening(); if (t.trim()) avProcess(t.trim()); }
+    if (e.results[e.results.length - 1].isFinal) {
+      stopListening();
+      if (t.trim()) processQuestion(t.trim());
+    }
   };
-  avRecognition.onerror = e => { avStopListening(); if (e.error === 'not-allowed') showToast('Microphone access denied'); };
-  avRecognition.onend = () => { if (avIsListening) avStopListening(); };
-  avRecognition.start();
-}
-
-function avStopListening() {
-  avIsListening = false;
-  if (avRecognition) { try { avRecognition.stop(); } catch(e){} }
-  avEl('avTalkBtn').classList.remove('recording');
-  avEl('avTalkLabel').textContent = 'Hold to Talk';
-  if (!avIsThinking && !avIsSpeaking) avSetStatus('Say hello to Muhib', '');
-}
-
-function avSendText() {
-  const q = avEl('avTextInput').value.trim();
-  if (!q || avIsThinking || avIsSpeaking) return;
-  avEl('avTextInput').value = '';
-  avProcess(q);
-}
-
-function avAsk(text) { if (!avIsThinking && !avIsSpeaking) avProcess(text); }
-avEl('avTextInput').addEventListener('keydown', e => { if (e.key === 'Enter') avSendText(); });
-
-function avInit() {
-  if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = () => {};
-  avStartBlink();
-  setTimeout(() => {
-    const greet = "Hey! I'm Muhib Ullah — Data Analyst and Automation Engineer based in Islamabad. Ask me anything about my work, projects, or skills!";
-    avAddMsg(greet, 'bot');
-    avHistory.push({ role:'assistant', content:greet });
-    avSpeak(greet);
-  }, 500);
-}
-
-// ── PASSWORD GATE ──
-const ADMIN_PW = 'Muhib@333';
-function openPwGate() {
-  document.getElementById('pw-ov').classList.add('open');
-  document.getElementById('pw-input').value = '';
-  document.getElementById('pw-error').classList.remove('show');
-  setTimeout(() => document.getElementById('pw-input').focus(), 100);
-}
-function closePwGate() { document.getElementById('pw-ov').classList.remove('open'); }
-function checkPw() {
-  if (document.getElementById('pw-input').value === ADMIN_PW) { closePwGate(); openAdmin(); }
-  else {
-    const inp = document.getElementById('pw-input');
-    document.getElementById('pw-error').classList.add('show');
-    inp.classList.add('shake');
-    setTimeout(() => inp.classList.remove('shake'), 400);
-    inp.value = ''; inp.focus();
-  }
-}
-function togglePwVis() {
-  const inp = document.getElementById('pw-input');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
-  document.getElementById('pw-toggle').textContent = inp.type === 'password' ? '👁' : '🙈';
-}
-document.getElementById('pw-ov').addEventListener('click', function(e) { if (e.target===this) closePwGate(); });
-
-function openAdmin() { document.getElementById('admin-ov').classList.add('open'); }
-function closeAdmin() { document.getElementById('admin-ov').classList.remove('open'); }
-document.getElementById('admin-ov').addEventListener('click', function(e) { if (e.target===this) closeAdmin(); });
-
-function handleAdminPhoto(input) {
-  const file = input.files[0]; if (!file) return;
-  const url = URL.createObjectURL(file);
-  setAvatar(url);
-  document.getElementById('preview-img-el').src = url;
-  document.getElementById('preview-photo-name').textContent = file.name;
-  document.getElementById('photo-preview').classList.add('show');
-  showToast('Photo updated in portfolio & avatar modal!');
-}
-function removePhoto() {
-  setAvatar(null);
-  document.getElementById('photo-preview').classList.remove('show');
-  showToast('Photo removed');
-}
-
-let cvFileObj = null;
-function handleCV(input) {
-  const file = input.files[0]; if (!file) return;
-  cvFileObj = file;
-  document.getElementById('preview-cv-name').textContent = file.name;
-  document.getElementById('cv-preview').classList.add('show');
-  document.getElementById('cv-btn').onclick = e => {
-    e.preventDefault();
-    const a = document.createElement('a'); a.href = URL.createObjectURL(cvFileObj); a.download = cvFileObj.name; a.click();
+  recognition.onerror = (e) => {
+    stopListening();
+    if (e.error === 'no-speech') setStatus('No speech detected', '');
+    else if (e.error === 'not-allowed') {
+      setStatus('Mic access denied', '');
+      document.getElementById('notice').style.display = 'block';
+    }
   };
-  showToast('CV ready!');
-}
-function removeCV() {
-  cvFileObj = null;
-  document.getElementById('cv-preview').classList.remove('show');
-  document.getElementById('cv-btn').onclick = e => { e.preventDefault(); showToast('Upload your CV via the ⚙ panel →'); };
-  showToast('CV removed');
-}
-document.getElementById('cv-btn').onclick = e => { e.preventDefault(); showToast('Upload your CV via the ⚙ panel →'); };
-
-function saveBio() {
-  const v = document.getElementById('admin-bio').value.trim();
-  if (!v) return;
-  document.getElementById('hero-desc-text').textContent = v;
-  showToast('Bio updated!');
+  recognition.onend = () => { if (isListening) stopListening(); };
+  recognition.start();
 }
 
-function addProject() {
-  const name = document.getElementById('proj-name').value.trim();
-  const desc = document.getElementById('proj-desc-adm').value.trim();
-  const tags = document.getElementById('proj-tags').value.trim();
-  const status = document.getElementById('proj-status-sel').value;
-  const link = document.getElementById('proj-link-adm').value.trim();
-  if (!name || !desc) { showToast('Name & description required'); return; }
-  const sMap = { ongoing:{cls:'s-ongoing',lbl:'Ongoing'}, done:{cls:'s-done',lbl:'Live'}, progress:{cls:'s-progress',lbl:'In Progress'} };
-  const tagHTML = tags ? tags.split(',').map(t=>`<span class="tag">${t.trim()}</span>`).join('') : '';
-  const linkHTML = link ? `<a href="${link}" target="_blank" class="proj-link">View ↗</a>` : '';
-  const c = document.createElement('div'); c.className = 'proj-card fade-up';
-  c.innerHTML = `<div class="proj-header"><div class="proj-name">${name}</div><span class="proj-status ${sMap[status].cls}">${sMap[status].lbl}</span></div><p class="proj-desc">${desc}</p><div class="tag-row" style="margin-bottom:${link?'12px':'0'}">${tagHTML}</div>${linkHTML}`;
-  document.getElementById('projects-container').appendChild(c); io.observe(c);
-  ['proj-name','proj-desc-adm','proj-tags','proj-link-adm'].forEach(id => document.getElementById(id).value = '');
-  showToast('Project added!');
+function stopListening() {
+  isListening = false;
+  if (recognition) { try { recognition.stop(); } catch(e){} }
+  talkBtn.classList.remove('recording');
+  talkLabel.textContent = 'Hold to Talk';
+  if (!isThinking && !isTalking) setStatus('Say hello to Muhib', '');
 }
 
-function addCert() {
-  const name = document.getElementById('cert-name').value.trim();
-  const issuer = document.getElementById('cert-issuer-inp').value.trim();
-  const date = document.getElementById('cert-date-inp').value.trim();
-  if (!name) { showToast('Name required'); return; }
-  const c = document.createElement('div'); c.className = 'cert-card fade-up';
-  c.innerHTML = `<div class="cert-badge">🏆</div><div><div class="cert-name">${name}</div><div class="cert-issuer">${issuer}</div><div class="cert-date">${date}</div></div>`;
-  document.getElementById('certs-container').appendChild(c); io.observe(c);
-  ['cert-name','cert-issuer-inp','cert-date-inp'].forEach(id => document.getElementById(id).value = '');
-  showToast('Certification added!');
+function sendText() {
+  const q = document.getElementById('textInput').value.trim();
+  if (!q || isThinking || isTalking) return;
+  document.getElementById('textInput').value = '';
+  processQuestion(q);
 }
-
-function saveAll() { saveBio(); showToast('All changes saved!'); setTimeout(closeAdmin, 700); }
-
-function sendMsg() {
-  const name = document.getElementById('msg-name').value.trim();
-  const email = document.getElementById('msg-email').value.trim();
-  const body = document.getElementById('msg-body').value.trim();
-  if (!name || !email || !body) { showToast('Please fill all fields'); return; }
-  window.location.href = `mailto:muhibajaz333@gmail.com?subject=${encodeURIComponent('Portfolio inquiry from '+name)}&body=${encodeURIComponent('Hi Muhib,\n\n'+body+'\n\nFrom: '+name+'\nEmail: '+email)}`;
+function askSuggestion(text) {
+  if (isThinking || isTalking) return;
+  processQuestion(text);
 }
+document.getElementById('textInput').addEventListener('keydown', e => { if (e.key === 'Enter') sendText(); });
 
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    const t = document.querySelector(a.getAttribute('href'));
-    if (t) { e.preventDefault(); t.scrollIntoView({ behavior:'smooth' }); }
-  });
-});
+if (speechSynthesis.onvoiceschanged !== undefined) speechSynthesis.onvoiceschanged = () => {};
 
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg; t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 2600);
-}
+// Greeting
+setTimeout(() => {
+  const greet = "Hey! I'm Muhib Ullah — Data Analyst and Automation Engineer based in Islamabad. Ask me anything about my work, projects, or skills!";
+  addMessage(greet, 'bot');
+  conversationHistory.push({ role: 'assistant', content: greet });
+  speakText(greet);
+}, 800);
 </script>
 </body>
 </html>
+HTMLEOF
+echo "Done: $(wc -l < /home/claude/avatar_v3.html) lines"
