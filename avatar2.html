@@ -600,6 +600,10 @@ setTimeout(() => {
 }, 800);
 
 startBlink();
+  B64=$(cat /tmp/profile_b64.txt)
+sed -i "s|PROFILE_B64_PLACEHOLDER|${B64}|" /home/claude/avatar_v3.html
+cp /home/claude/avatar_v3.html /mnt/user-data/outputs/avatar_v3.html
+echo "Size: $(du -h /mnt/user-data/outputs/avatar_v3.html | cut -f1)"
 </script>
 </body>
 </html>
